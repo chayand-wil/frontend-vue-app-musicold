@@ -10,15 +10,24 @@
     <div class="mb-4">
       <button @click="router.push('/login')">Iniciar sesión</button>
     </div>
-    <div>
-      <button @click="router.push('/register')">Registrarse</button>
-    </div>
+ 
+     <div
+      class="w-full max-w-2xl bg-white/10 backdrop-blur-sm rounded-2xl p-10 shadow-lg text-green-400"
+    >
+    <h1>{{ textoo }}</h1>
+  </div>
+    
+
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-// import api from '../../axios'
+import api from '../axios'
+// import { inject, ref, onMounted } from 'vue'
+import {   onMounted } from 'vue'
+
+
 
 import { useRouter } from 'vue-router'
 
@@ -32,41 +41,33 @@ const password = ref('')
 const error = ref('')
 const router = useRouter()
 
+const textoo = ref('aun no')
+
+
 const SubmitEvent = ref(false)
 
-const login = async () => {
-  SubmitEvent.value = true
-  if (!email.value || !password.value) {
-    error.value = 'Todos los campos son obligatorios'
-  } else {
-    try {
-      // const response = await api.post('/login', {
-      //   email: email.value,
-      //   password: password.value,
-      // })
 
-      // const token = response.data.access_token
-      // const role = response.data.user.rol.slug
-      // const id = response.data.user.id
+onMounted(async () => {
+  textoo.value = "chayand"
+  try {
+    const res = await api.get('/users/test')
+    textoo.value = res.data.mensaje
+    alert('Bienvenido: ' + res.data.mensaje)
 
-      // localStorage.setItem('token', token)
-      // localStorage.setItem('role', role)
-      // localStorage.setItem('id', id)
-      const role = 'admin'
-      switch (role) {
-        case 'admin':
-          router.push('/admin')
-          break
-        case 'comun_user':
-          router.push('/comun_user')
-          break
 
-        default:
-          router.push('/')
-      }
-    } catch (err) {
-      error.value = 'Credenciales incorrectas'
-    }
+
+  } catch (e) {
+    alert('Error: ' + e.response.data.mensaje)
+
   }
-}
+})
+
+
+
+
+  
+
+
+
+
 </script>

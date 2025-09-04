@@ -15,7 +15,7 @@
 
       <div class="relative w-full mt-1">
         <input
-          v-model="email"
+          v-model="username"
           @focus="focus_mail = true"
           @blur="focus_mail = false"
           type="text"
@@ -27,7 +27,7 @@
         <label
           :class="[
             'absolute left-6 transition-all',
-            focus_mail || email
+            focus_mail || username
               ? 'top-0.5 text-base text-xs text-blue-500'
               : 'top-4 text-lg text-gray-500',
           ]"
@@ -37,7 +37,7 @@
         </label>
       </div>
 
-      <p v-if="SubmitEvent && !email" class="text-red-600 text-sm">El correo es obligatorio</p>
+      <p v-if="SubmitEvent && !username" class="text-red-600 text-sm">El correo es obligatorio</p>
 
       <div class="relative w-full mt-1">
         <input
@@ -95,7 +95,7 @@
 
 <script setup>
 import { ref } from 'vue'
-// import api from '../../axios'
+import api from '../axios'
 
 import { useRouter } from 'vue-router'
 
@@ -104,7 +104,7 @@ const focus_lastname = ref(false)
 const focus_mail = ref(false)
 const focus_password = ref(false)
 
-const email = ref('')
+const username = ref('')
 const password = ref('')
 const error = ref('')
 const router = useRouter()
@@ -113,14 +113,14 @@ const SubmitEvent = ref(false)
 
 const login = async () => {
   SubmitEvent.value = true
-  if (!email.value || !password.value) {
+  if (!username.value || !password.value) {
     error.value = 'Todos los campos son obligatorios'
   } else {
     try {
-      // const response = await api.post('/login', {
-      //   email: email.value,
-      //   password: password.value,
-      // })
+      const response = await api.post('/auth/login', {
+        username: username.value,
+        password: password.value,
+      })
 
       // const token = response.data.access_token
       // const role = response.data.user.rol.slug
@@ -142,7 +142,9 @@ const login = async () => {
           router.push('/')
       }
     } catch (err) {
-      error.value = 'Credenciales incorrectas'
+error.value = err?.response?.data?.message || 'Credenciales incorrectas';
+// console.error('Error during login:', err)
+
     }
   }
 }
