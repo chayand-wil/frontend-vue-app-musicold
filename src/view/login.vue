@@ -117,24 +117,25 @@ const login = async () => {
     error.value = 'Todos los campos son obligatorios'
   } else {
     try {
-      const response = await api.post('/auth/login', {
+      const response = await api.post('/login', {
         username: username.value,
         password: password.value,
       })
 
-      // const token = response.data.access_token
-      // const role = response.data.user.rol.slug
-      // const id = response.data.user.id
+      const token = response.data.token
+      const role = response.data.user.role
+      const id = response.data.user.id
 
-      // localStorage.setItem('token', token)
-      // localStorage.setItem('role', role)
-      // localStorage.setItem('id', id)
-      const role = 'admin'
+      localStorage.setItem('token', token)
+      localStorage.setItem('role', role)
+      localStorage.setItem('id', id)
+
+      // const role = "ADMIN"
       switch (role) {
-        case 'admin':
+        case 'ADMIN':
           router.push('/admin')
           break
-        case 'comun_user':
+        case 'ACTIVE':
           router.push('/comun_user')
           break
 
@@ -143,7 +144,7 @@ const login = async () => {
       }
     } catch (err) {
 error.value = err?.response?.data?.message || 'Credenciales incorrectas';
-// console.error('Error during login:', err)
+console.error('Error during login:', err)
 
     }
   }

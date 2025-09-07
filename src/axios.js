@@ -1,34 +1,20 @@
-// src/axios.js
-import axios from 'axios';
+ 
+import axios from 'axios'
+import router from './router'
 
 const api = axios.create({
-  baseURL: 'http://localhost:4000/api',
- 
-});
+  baseURL: import.meta.env.VITE_API_URL,
+})
 
-export default api;
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token')
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
+})
 
-
-
-
-
-// import axios from 'axios'
-// import router from './router'
-
-// const api = axios.create({
-//   baseURL: 'http://localhost:4000/api',
-//   // baseURL: import.meta.env.VITE_API_URL,
-// })
-
-// api.interceptors.request.use((config) => {
-//   const token = localStorage.getItem('token')
-//   if (token) {
-//     config.headers.Authorization = `Bearer ${token}`
-//   }
-//   return config
-// })
-
-// export default api
+export default api
 
 // api.interceptors.response.use(
 //   (response) => response,
@@ -41,5 +27,5 @@ export default api;
 //     return Promise.reject(error)
 //   },
 // )
-// // Redirige a la página de login si el token es inválido o ha expirado
-// // Asegúrate de importar el router en este archivo si no lo has hecho ya
+// Redirige a la página de login si el token es inválido o ha expirado
+// Asegúrate de importar el router en este archivo si no lo has hecho ya

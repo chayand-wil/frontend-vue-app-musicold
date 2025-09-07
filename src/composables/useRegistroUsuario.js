@@ -1,6 +1,8 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-// import api from '../axios'
+import api from '../axios'
+
+
 
 export function useRegistroUsuario() {
   const router = useRouter()
@@ -9,27 +11,14 @@ export function useRegistroUsuario() {
   const focus_lastname = ref(false)
   const focus_mail = ref(false)
   const focus_password = ref(false)
-  const focus_dpi = ref(false)
-  const focus_direccion = ref(false)
-  const focus_contacto = ref(false)
+  const focus_username = ref(false)
 
   const mensaje = ref('')
   const error = ref('')
-  const municipios = ref([])
 
   const nuevo = ref(getDefaultNuevo())
-
-  const departamento = ref(1)
-
-  const obtenerMunicipios = async () => {
-    try {
-      // const res = await api.get(`/get_catalogos/municipio`)
-      // municipios.value = res.data
-    } catch (e) {
-      error.value = e.res?.message || 'Error al cargar municipios'
-      router.push('/')
-    }
-  }
+ 
+   
 
   // Función para limpiar
   function limpiarNuevo() {
@@ -38,20 +27,14 @@ export function useRegistroUsuario() {
 
   function getDefaultNuevo() {
     return {
-      name: '',
-      last_name: '',
-      email: '',
-      password: '',
-      dpi: '',
-      id_estado: 1,
-      id_rol: 4,
-      id_nivel: 1,
-      cantidad_puntos: 0,
-      id_municipio: 1,
-      fecha_nacimiento: '',
-      id_genero: 2,
-      detalle_direccion: '',
-      medio_contacto: '',
+      username: 'wilson88',
+      email: 'wilson88@wil.com',
+      name: 'wilson',
+      lastname: 'chayand',
+      password: 'admin123',
+      // id_rol: 2,
+      // id_estado: 1,
+      // id_genero: 2,
     }
   }
 
@@ -59,24 +42,34 @@ export function useRegistroUsuario() {
     mensaje.value = ''
     error.value = ''
     try {
-      // const response = await api.post('/register', nuevo.value)
-      // const response = 'departamento'
+      const response = await api.post('/register', nuevo.value)
+      console.log(response.data.message)
+      mensaje.value = response?.data?.message || 'Usuario creado con éxiiiiito'
       // if (response.status === 201) {
-      //   mensaje.value = response.data.message
-      //   setTimeout(() => (mensaje.value = ''), 2000)
-      //   if (!localStorage.getItem('id')) {
-      //     await login()
-      //   }
-      //   limpiarNuevo()
+        // setTimeout(() => (mensaje.value = ''), 2000)
+        // Si el usuario es creado con éxito, proceder con el
+
+        // registro si no es admin
+        // if (!localStorage.getItem('id')) {
+          // activacion de la cuenta
+          const em = nuevo.value.email
+          router.push({ name: 'activate', params: { email: em } })
+
+          // login despues de la activacion
+          // await login()
+        // } 
+        // limpiarNuevo()
       // }
     } catch (e) {
+      console.log(e)
+      error.value = e.response?.data?.message || 'Error al crear el usuario'
       if (e.response?.status === 422) {
         const errores = e.response.data.errors
-        error.value = ' Error: ' + Object.values(errores).flat().join(', ')
+        // error.value = ' Error: ' + Object.values(errores).flat().join(', ')
         setTimeout(() => {
           mensaje.value = ''
           error.value = ''
-        }, 2000)
+        }, 3000)
       }
     }
   }
@@ -95,13 +88,13 @@ export function useRegistroUsuario() {
       // localStorage.setItem('token', token)
       // localStorage.setItem('role', role)
       // localStorage.setItem('id', id)
-      const role = 'admin'
+      // const role = 'admin'
 
       switch (role) {
-        case 'admin':
+        case 'ADMIN':
           router.push('/admin')
           break
-        case 'comun_user':
+        case 'ACTIVE':
           router.push('/comun_user')
           break
 
@@ -113,20 +106,18 @@ export function useRegistroUsuario() {
     }
   }
 
-  onMounted(obtenerMunicipios)
-
+   
+   
   return {
     nuevo,
     mensaje,
     error,
-    municipios,
     focus_name,
     focus_lastname,
     focus_mail,
     focus_password,
-    focus_dpi,
-    focus_direccion,
-    focus_contacto,
+    focus_username,
     crearUsuario,
   }
+
 }

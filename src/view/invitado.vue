@@ -22,10 +22,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import api from '../axios'
+import {   ref, onMounted } from 'vue'
 // import { inject, ref, onMounted } from 'vue'
-import {   onMounted } from 'vue'
 
 
 
@@ -48,11 +47,8 @@ const SubmitEvent = ref(false)
 
 
 onMounted(async () => {
-  textoo.value = "chayand"
   try {
-    const res = await api.get('/users/test')
-    textoo.value = res.data.mensaje
-    alert('Bienvenido: ' + res.data.mensaje)
+    // textoo.value = res.data.mensaje
 
 
 
