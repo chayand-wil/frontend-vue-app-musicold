@@ -39,14 +39,15 @@
   <div class="ml-12 mt-8  flex items-center justify-left">
     <h1 class="text-4xl md:text-5xl font-bold mb-6">Mas gustado</h1>
   </div>
-  <div class="mr-10 ml-10 overflow-x-auto whitespace-nowrap px-6">
+  
+  <!-- <div class="mr-10 ml-10 overflow-x-auto whitespace-nowrap px-6"> -->
+    <div class="mr-10 ml-10 overflow-x-auto whitespace-nowrap px-6 custom-scroll">
     <div class="inline-flex gap-4">
       <PublicationCard
         v-for="item in publications"
         :key="item.id"
         :publication="item"
         @cargar-Publication="cargarPublication"
-        class="w-72 flex-shrink-0"
       />
     </div>
   </div>
@@ -54,21 +55,17 @@
   <div class="ml-12 mt-8  flex items-center justify-left">
     <h1 class="text-4xl md:text-5xl font-bold mb-6">Mas comentado</h1>
   </div>
- 
-  <button @click="openModal">algo
-
-  </button>
+  
 
 
 </template>
 
 <script setup>
-// @cargar-Publication="cargarPublication"
 
 import { ref } from "vue";
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
-import axios from "../axios";
+import api from "../axios";
 import PublicationCard from "@/components/PublicationCard.vue";
 import InviteModal from '../components/InviteModal.vue';
 
@@ -96,38 +93,16 @@ const publications = ref([
     id: 5,
     nombre: "Lucía Fernández",
     titulo: "Compostaje en espacios pequeños",
-  },
-  { id: 6, nombre: "Diego Ramírez", titulo: "Proyectos de ecoemprendimiento" },
-  {
-    id: 7,
-    nombre: "Paola Castillo",
-    titulo: "Manualidades con vidrio reciclado",
-  },
-  {
-    id: 8,
-    nombre: "Andrés Morales",
-    titulo: "Cómo separar residuos correctamente",
-  },
-  {
-    id: 9,
-    nombre: "Valeria Soto",
-    titulo: "Beneficios del reciclaje para la comunidad",
-  },
-  {
-    id: 10,
-    nombre: "Felipe Herrera",
-    titulo: "Transforma tus desechos en decoración",
-  },
+  }
+  
 ]);
 
 const cargarPublications = async () => {
   try {
-    // const res = await api.get('/article')
+    const res = await api.get('/article')
     // alert('alogla')
-    // publications.value = res.data
+    publications.value = res.data.data
     // console.log(publications.value)
-    // const res1 = await api.get(`/get_catalogos/motivo_denuncia`)
-    // motivos.value = res1.data
     //filtrar
     // filtrar()
   } catch (e) {
@@ -160,13 +135,12 @@ function openModal() {
 function handleAction(action) {
   if (action === 'login') {
     console.log('Ir a la pantalla de inicio de sesión');
-    // Aquí podrías usar router.push('/login')
+    router.push('/login')
   } else if (action === 'register') {
     console.log('Ir a la pantalla de registro');
-    // router.push('/register')
+    router.push('/register')
   } else if (action === 'guest') {
     console.log('Continuar como invitado');
-    // Lógica para invitado
   }
 }
 

@@ -18,6 +18,7 @@
       </svg>
     </button>
 
+
     <!-- Menú desplegable -->
     <div
       v-if="open"
@@ -28,7 +29,7 @@
         <p class="mb-4 text-sm text-gray-300">{{ user.email }}</p>
 
         <button
-          @click="router.push('/recicla0te.com/reutilizador/mi_cuenta')"
+          @click="router.push('/mi_cuenta')"
           class="w-full text-green-400   py-2 rounded-md hover:bg-green-600 hover:text-white transition"
         >
           Mi Cuenta
@@ -46,7 +47,7 @@
       <template v-else>
         <p class="font-semibold text-red-400 mb-4">No has iniciado sesión</p>
         <button
-          @click="router.push('/recicla0te.com/login')"
+          @click="router.push('/login')"
           class="w-full text-green-400 border border-green-400 px-4 py-2 rounded-md hover:bg-green-400 hover:text-white transition"
         >
           Iniciar sesión

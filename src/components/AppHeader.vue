@@ -1,16 +1,17 @@
 <template>
-
-      <!-- Modal -->
-    <InviteModal 
-      :show="showModal" 
-      @close="showModal = false" 
-      @action="handleAction"
-    />
+  <!-- Modal -->
+  <InviteModal
+    :show="showModal"
+    @close="showModal = false"
+    @action="handleAction"
+  />
 
   <header
     class="w-full backdrop-blur-lg bg-white/10 text-white fixed top-0 z-50 border-b border-white/10"
   >
-    <div class="flex items-center text-xl justify-between px-4 sm:px-6 lg:px-8 h-16">
+    <div
+      class="flex items-center text-xl justify-between px-4 sm:px-6 lg:px-8 h-16"
+    >
       <!-- Logo -->
       <div class="flex items-center space-x-1 ml-4 sm:ml-8 lg:ml-16">
         <!-- <img src="" alt="Logo" class="w-6 h-6" /> -->
@@ -37,10 +38,12 @@
             <!-- Columna 1 -->
             <div class="flex flex-col space-y-2">
               <span class="text-sm font-semibold text-gray-600">viniles</span>
-              <a href="#" class="text-green-600 hover:underline">Tecnología</a>
+              <a href="" class="text-green-600 hover:underline">Tecnología</a>
               <a href="#" class="text-green-600 hover:underline">Hogar</a>
               <a href="#" class="text-green-600 hover:underline">Moda</a>
-              <a href="#" class="text-green-600 hover:underline">Salud y Belleza</a>
+              <a href="#" class="text-green-600 hover:underline"
+                >Salud y Belleza</a
+              >
               <a href="#" class="text-green-600 hover:underline">Deportes</a>
               <a href="#" class="text-green-600 hover:underline">Jardinería</a>
             </div>
@@ -51,7 +54,6 @@
               <a href="#" class="text-green-600 hover:underline">Blog</a>
             </div>
             <div class="flex flex-col space-y-2">
-
               <span class="text-sm font-semibold text-gray-600">Cds</span>
               <a href="#" class="text-green-600 hover:underline">Blog</a>
               <a href="#" class="text-green-600 hover:underline">Guías</a>
@@ -61,20 +63,20 @@
           </div>
         </div>
 
-        <router-link to="/">Home</router-link>
+        <button @click="toggleDropdown">home</button>
         <router-link to="/recicla0te.com/reutilizador/ranking"></router-link>
 
-
-        <a href="#" class="flex flex-col items-center text-xm hover:opacity-90"> </a>
+        <a href="#" class="flex flex-col items-center text-xm hover:opacity-90">
+        </a>
       </nav>
 
       <!-- Apps y Usuario -->
       <div class="flex items-center space-x-4 mr-4 sm:mr-8 lg:mr-16">
         <div>
-          <router-link to="/recicla0te.com/reutilizador/publicar">Mi carrito</router-link>
+          <router-link to="/">Mi carrito</router-link>
         </div>
         <div>
-          <router-link to="/recicla0te.com/reutilizador/mi_cuenta">Mi Cuenta</router-link>
+          <router-link to="/">Mi Cuenta</router-link>
         </div>
 
         <!-- <button aria-label="Apps" class="hover:opacity-90">
@@ -103,39 +105,37 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
-import UserDropdown from '../components/UserDropdown.vue'
+import { ref, onMounted, onBeforeUnmount } from "vue";
+import UserDropdown from "../components/UserDropdown.vue";
 // import Notifications from '../Notifications.vue'
-import router from '@/router'
-import InviteModal from '../components/InviteModal.vue';
+import router from "@/router";
+import InviteModal from "../components/InviteModal.vue";
 
-
-
-const isOpen = ref(false)
-const dropdownRef = ref(null)
+const isOpen = ref(false);
+const dropdownRef = ref(null);
 
 function toggleDropdown() {
-  isOpen.value = !isOpen.value
+  isOpen.value = !isOpen.value;
 }
 
 // Detectar clic fuera
 function handleClickOutside(event) {
   if (dropdownRef.value && !dropdownRef.value.contains(event.target)) {
-    isOpen.value = false
+    isOpen.value = false;
   }
 }
 
 onMounted(() => {
-  document.addEventListener('click', handleClickOutside)
-})
+  document.addEventListener("click", handleClickOutside);
+});
 
 onBeforeUnmount(() => {
-  document.removeEventListener('click', handleClickOutside)
-})
+  document.removeEventListener("click", handleClickOutside);
+});
 </script>
 
 <style scoped>
 header {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 </style>

@@ -6,7 +6,7 @@
     <div class="bg-gray-600 text-white p-6 rounded-lg w-full max-w-md">
       <!-- Header -->
       <div class="flex items-center justify-between mb-4">
-        <h2 class="text-2xl font-bold">Reportar Publicacion</h2>
+        <h2 class="text-2xl font-bold">Agregar a la lista de Deseos</h2>
         <button @click="$emit('close')" class="text-white text-xl">&times;</button>
       </div>
 
