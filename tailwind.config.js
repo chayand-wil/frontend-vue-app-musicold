@@ -6,7 +6,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        verdee: "rgba(104, 23, 158, 1)",
+        verdee: "rgba(229, 255, 0, 1)",
       },
     },
   },

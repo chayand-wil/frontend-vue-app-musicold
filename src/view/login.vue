@@ -1,17 +1,18 @@
 <template>
   <!-- <div class="min-h-screen flex items-center justify-center bg-gray-500"> -->
   <div
-    class="min-h-screen flex items-center justify-center bg-gray-500 bg-opacity-20 backdrop-blur-sm"
+    class="min-h-screen flex items-center justify-center  bg-opacity-20 "
   >
-    <!-- <div
-      class="bg-white p-14 rounded-[3rem] hover:shadow-[0_15px_70px_rgba(0,0,0,0.8)] w-full max-w-2xl space-y-4"
-    > -->
-
+  
     <div
       class="w-full max-w-2xl bg-white/10 backdrop-blur-sm rounded-2xl p-10 shadow-lg text-green-400"
     >
-      <!-- <img src="@/assets/logo_3r.png" alt="Logo" class="mx-auto h-64 w-auto" />
-      <h1 class="mt-4 mb-4 text-2xl font-bold text-center">Iniciar sesión</h1> -->
+      <img src="/src/assets/logo_bueno_para.png" alt="Logo" class="mx-auto h-64 w-auto" />
+      <h1 class="mt-4 mb-4 text-2xl font-bold text-center">Iniciar sesión</h1>
+      <button class="block mx-auto text-xm text-black mb-4" @click="router.push('/')">
+        Seguir como invitado
+      </button>
+      
 
       <div class="relative w-full mt-1">
         <input
@@ -75,20 +76,18 @@
       <p v-if="error" class="text-red-600 text-sm text-center">{{ error }}</p>
       <br />
       <br />
-      <p class="text-2xl text-center">
-        <router-link to="/register">Registrate ahora!</router-link>
-      </p>
-
-      <button class="block mx-auto text-xm text-black mt-4" @click="router.push('/')">
-        Seguir como invitado
-      </button>
+      
 
       <button
-        class="block mx-auto text-xm text-black mt-4"
-        @click="router.push('/recover_password')"
+      class="block mx-auto text-xm text-black mt-4"
+      @click="router.push('/recover_password')"
       >
-        Recuperar contrasena
-      </button>
+      Olvidaste tu contrasena?
+    </button>
+
+    <p class="mt-4 text-2xl text-center">
+      <router-link to="/register">Registrate ahora!</router-link>
+    </p>
     </div>
   </div>
 </template>

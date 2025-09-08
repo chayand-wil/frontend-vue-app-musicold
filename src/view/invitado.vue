@@ -1,12 +1,10 @@
 <template>
   <!-- <div class="min-h-screen flex items-center justify-center bg-gray-500"> -->
   <div
-    class="min-h-screen flex items-center justify-center bg-gray-500 bg-opacity-20 backdrop-blur-sm"
+    class="min-h-screen flex items-center justify-center bg-gray-500 bg-opacity-10 backdrop-blur-xs"
   >
-    <!-- <div
-      class="bg-white p-14 rounded-[3rem] hover:shadow-[0_15px_70px_rgba(0,0,0,0.8)] w-full max-w-2xl space-y-4"
-    > -->
-    <h1>Bienvenido, invitado!</h1>
+  
+    <h1>Bienvenido</h1>
     <div class="mb-4">
       <button @click="router.push('/login')">Iniciar sesión</button>
     </div>

@@ -3,7 +3,7 @@
   <div class="bg-white/10 backdrop-blur-sm rounded-2xl shadow-lg text-white">
     <!-- Cabecera -->
     <div class="px-4 pt-4 flex justify-between items-center text-sm text-gray-400">
-      <span>{{ publication.article.nombre }}</span>
+      <span>{{ publication.nombre }}</span>
       <p>{{ new Date(publication.created_at).toLocaleString() }}</p>
       <button @click="modalVisible = true">
         <svg
@@ -41,7 +41,7 @@
 
     <!-- Estado -->
     <div class="mt-2 px-4 text-sm pb-1 text-green-400">
-      Estado: {{ publication.article.estado_adquisicion.nombre }}
+      <!-- Estado: {{ publication.article.estado_adquisicion.nombre }} -->
     </div>
 
     <!-- Acciones -->

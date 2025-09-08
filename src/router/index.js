@@ -5,13 +5,26 @@ import Invitado from '@/view/invitado.vue'
 import Register from '@/view/register.vue'
 import Comun_user from '@/view/comun_user.vue'
 import ActivacionDeLaCuenta from '@/view/activacion_cuenta.vue'
+import Forgot_password from '@/view/forgot_password.vue'
+import homeLayout from '@/layout/homeLayout.vue'
+import HomeView from '@/view/homeView.vue'
 
 const routes = [
-  {
+
+     {
     path: '/',
     name: 'index',
-    component: Invitado,
-  },
+    component: homeLayout,
+    children: [
+      { path: '', name: 'invited', component:HomeView  },
+      ]
+    },
+
+
+
+
+
+
   {
     path: '/login',
     name: 'login',
@@ -30,7 +43,7 @@ const routes = [
   {
     path: '/recover_password',
     name: 'recover_password',
-    component: ActivacionDeLaCuenta,
+    component: Forgot_password,
   },
   {
     path: '/register',
@@ -44,6 +57,21 @@ const routes = [
     component: ActivacionDeLaCuenta, props: true,
   },
 
+
+
+  //  {
+  //   path: '/user/home',
+  //   component: homeLayout,
+  //   children: [
+  //     { path: '', name: 'reutilizador', component: HomeView },
+  //     { path: 'nosotros', name: 'nosotros', component: NosotrosView },
+  //     { path: 'ranking', name: 'ranking', component: RankingView },
+  //     { path: 'ecoemp', name: 'ecoemp', component: EcoempView },
+  //     { path: 'publicar', name: 'publicar', component: NewPublicationView },
+  //     { path: 'otro', name: 'otro', component: Otro },
+      
+  //     ]
+  //   },
   //nada -  captura de rutas no encontradas
   // {
   //   path: '/:pathMatch(.*)*',
