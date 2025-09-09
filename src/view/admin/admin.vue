@@ -330,8 +330,8 @@ onMounted(async () => {
     // if (res.data.rol.slug !== 'ADMIN') {
     //   router.push('/')
     // } else {
-    //   // await cargarUsuarios()
-    //   // await cargarContador()
+    // //   // await cargarUsuarios()
+    // //   // await cargarContador()
     // }
   } catch (e) {
     router.push('/')

@@ -37,7 +37,7 @@
       <!-- Imagen del producto -->
       <div class="flex-1 flex justify-center">
         <img
-          :src="publication?.imagen_url"
+          :src="publication?.image"
           alt="image del articulo"
           class="w-400 h-auto rounded-xl shadow"
         />
@@ -143,8 +143,8 @@ const nuevaSolicitud = ref({
 // Carga si no viene por prop
 const cargarInfo = async () => {
   try {
-    // const res = await api.get(`/article/${route.params.id}`)
-    // publication.value = res.data.data
+    const res = await api.get(`/article/${route.params.id}`)
+    publication.value = res.data.data
     // article.value = publication.value.article
     // user.value = publication.value.user
   } catch (e) {

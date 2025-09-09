@@ -11,7 +11,7 @@ import Admin from "@/view/admin/admin.vue";
 import DetailPublication from "@/view/user/DetailPublication.vue";
 import PublicationView from "@/view/user/PublicationView.vue";
 import DetallePublicationLayoutView from "@/layout/DetallePublicationLayoutView.vue";
-
+// import jwtDecode from jwtDecode;
 
 const routes = [
   {
@@ -23,14 +23,15 @@ const routes = [
   {
     path: '/user/home',
     component: homeLayoutUser,
+    meta: { requiresAuth: true, role: 'CLIENT' },
     children: [
-      { path: '', name: 'CLIENT', component: UserHomeView },
+      { path: '', name: 'user', component: UserHomeView },
       {
         path: 'pub/:id/',
         component: DetallePublicationLayoutView,
         children: [
           { path: '', name: 'pub', component: PublicationView, props: true },
-          { path: 'datail_song', name: 'datail_song', component: DetailPublication, props: true },
+          { path: 'detail_song', name: 'detail_song', component: DetailPublication, props: true },
         ],
       },
     ]
@@ -48,6 +49,7 @@ const routes = [
   {
     path: "/admin",
     name: "admin",
+    meta: { requiresAuth: true, role: 'ADMIN' },
     component: Admin,
   },
   {
@@ -67,20 +69,7 @@ const routes = [
     component: ActivacionDeLaCuenta,
     props: true,
   },
-
-  //  {
-  //   path: '/user/home',
-  //   component: homeLayout,
-  //   children: [
-  //     { path: '', name: 'reutilizador', component: HomeView },
-  //     { path: 'nosotros', name: 'nosotros', component: NosotrosView },
-  //     { path: 'ranking5', name: 'ranking', component: RankingView },
-  //     { path: 'ecoemp', name: 'ecoemp', component: EcoempView },
-  //     { path: 'publicar', name: 'publicar', component: NewPublicationView },
-  //     { path: 'otro', name: 'otro', component: Otro },
-
-  //     ]
-  //   },
+ 
   // nada -  captura de rutas no encontradas
   {
     path: '/:pathMatch(.*)*',
@@ -99,20 +88,27 @@ router.beforeEach((to, from, next) => {
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
 
-  // // Si el usuario ya esta logueado y trata de ir al login, redirigir según su rol
 
-  if (
-    (token && to.name === 'login') ||
-    (token && to.name === 'register') ||
-    (token && to.name === 'invited')
-  ) {
-    if (role === 'ADMIN') return next({ name: 'ADMIN' })
-    if (role === 'CLIENT') return next({ name: 'CLIENT' })
-   }
 
-  // Control por roles
-  if (to.name?.startsWith('ADMIN') && role !== 'ADMIN') return next({ name: 'login' })
-  if (to.name === 'ACTIVE' && role !== 'ACTIVE') return next({ name: 'login' })
+ // Si la ruta requiere autenticación y no hay token → redirige a login
+  if (to.meta.requiresAuth && !token) {
+    return next({ name: "login" });
+  }
+
+  // Si la ruta tiene un rol específico y el usuario no coincide → login
+  if (to.meta.role && to.meta.role !== role) {
+    return next({ name: "login" });
+  }
+
+
+//Si esta autenticado y quiere entrar a rutas publicas
+const publicRoutes = ['login', 'register', 'invited', 'recover_password', 'activate']
+
+ if (token && publicRoutes.includes(to.name)) {
+    if (role === 'ADMIN') return next({ name: 'admin' })
+    if (role === 'CLIENT') return next({ name: 'user' })
+  }
+
 
   next();
 });

@@ -10,7 +10,7 @@
   <!-- Mensaje de error de validación -->
   <div
     v-if="errorMessage"
-    class="bg-white/10 backdrop-blur-sm rounded-2xl p-10 shadow-lg text-xl text-red-600"
+    class="mt-40 bg-white/10 backdrop-blur-sm rounded-2xl p-10 shadow-lg text-xl text-red-600"
   >
     {{ errorMessage }}
   </div>
@@ -83,6 +83,10 @@ const cargarPublications = async () => {
 
 onMounted(async () => {
   try {
+      // const res1 = await api.get('/users/profile')
+      // if(res1.data.role !== 'CLIENT'){
+      // router.push('/');
+    // } 
     await cargarPublications();
   } catch (error) {
     console.log(error);

@@ -14,7 +14,6 @@ api.interceptors.request.use((config) => {
   return config
 })
 
-export default api
 
 // api.interceptors.response.use(
 //   (response) => response,
@@ -27,5 +26,8 @@ export default api
 //     return Promise.reject(error)
 //   },
 // )
+export default api
+
+
 // Redirige a la página de login si el token es inválido o ha expirado
 // Asegúrate de importar el router en este archivo si no lo has hecho ya

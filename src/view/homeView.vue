@@ -78,17 +78,12 @@ const successMessage = ref("");
 const showModal = ref(false);
 
 
-// const publications = ref([]);
-
 const publications = ref([]);
 
 const cargarPublications = async () => {
   try {
     const res = await api.get('/article')
     publications.value = res.data.data
-    // console.log(publications.value)
-    //filtrar
-    // filtrar()
   } catch (e) {
     errorMessage.value =
       e?.response?.data?.message || "Error al cargar publicaciones";
@@ -103,11 +98,8 @@ onMounted(async () => {
   }
 });
 
-
-
 const cargarPublication = async (id) => {
   openModal()
-
 }
 
 
@@ -127,9 +119,5 @@ function handleAction(action) {
     console.log('Continuar como invitado');
   }
 }
-
-
-// const cargarPublication = async (id) => {
-//   router.push({ name: 'pub', params: { id } })
-// }
+ 
 </script>
