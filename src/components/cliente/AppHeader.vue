@@ -1,11 +1,6 @@
 <template>
   <!-- Modal -->
-  <InviteModal
-    :show="showModal"
-    @close="showModal = false"
-    @action="handleAction"
-  />
-
+ 
   <header
     class="w-full backdrop-blur-lg bg-white/10 text-white fixed top-0 z-50 border-b border-white/10"
   >
@@ -63,7 +58,7 @@
           </div>
         </div>
 
-        <button @click="openModal">home</button>
+        <button @click="router.push('/')">home</button>
         <router-link to="/recicla0te.com/reutilizador/ranking"></router-link>
 
         <a href="#" class="flex flex-col items-center text-xm hover:opacity-90">
@@ -74,11 +69,11 @@
       <div class="flex items-center space-x-4 mr-4 sm:mr-8 lg:mr-16">
      
 <button
-@click="openModal">
+@click="router.push('/viewp')">
         Mi cuenta
 </button>
 <button
-@click="openModal">
+@click="router.push('/login')">
         Mi cuenta
 </button>
         <!-- <button aria-label="Apps" class="hover:opacity-90">
@@ -108,10 +103,9 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
-import UserDropdown from "../components/UserDropdown.vue";
+import UserDropdown from "../../components/UserDropdown.vue";
 // import Notifications from '../Notifications.vue'
 import router from "@/router";
-import InviteModal from "../components/InviteModal.vue";
 
 const isOpen = ref(false);
 const dropdownRef = ref(null);

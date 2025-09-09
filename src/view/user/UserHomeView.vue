@@ -14,14 +14,8 @@
   >
     {{ errorMessage }}
   </div>
-    <!-- Modal -->
-    <InviteModal 
-      :show="showModal" 
-      @close="showModal = false" 
-      @action="handleAction"
-    />
-  
-  <div class="ml-12 mt-20  flex items-center justify-left">
+
+  <div class="ml-12 mt-20 flex items-center justify-left">
     <h1 class="text-4xl md:text-5xl font-bold mb-6">Lo mas nuevo</h1>
   </div>
   <div class="mr-10 ml-10 overflow-x-auto whitespace-nowrap px-6">
@@ -36,12 +30,12 @@
     </div>
   </div>
 
-  <div class="ml-12 mt-8  flex items-center justify-left">
+  <div class="ml-12 mt-8 flex items-center justify-left">
     <h1 class="text-4xl md:text-5xl font-bold mb-6">Mas gustado</h1>
   </div>
-  
+
   <!-- <div class="mr-10 ml-10 overflow-x-auto whitespace-nowrap px-6"> -->
-    <div class="mr-10 ml-10 overflow-x-auto whitespace-nowrap px-6 custom-scroll">
+  <div class="mr-10 ml-10 overflow-x-auto whitespace-nowrap px-6 custom-scroll">
     <div class="inline-flex gap-4">
       <PublicationCard
         v-for="item in publications"
@@ -52,31 +46,23 @@
     </div>
   </div>
 
-  <div class="ml-12 mt-8  flex items-center justify-left">
+  <div class="ml-12 mt-8 flex items-center justify-left">
     <h1 class="text-4xl md:text-5xl font-bold mb-6">Mas comentado</h1>
   </div>
-  
-
-
 </template>
 
 <script setup>
-
 import { ref } from "vue";
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
-import api from "../axios";
+import api from "../../axios";
 import PublicationCard from "@/components/PublicationCard.vue";
-import InviteModal from '../components/InviteModal.vue';
-
 
 const router = useRouter();
 const errorMessage = ref("");
 const successMessage = ref("");
 
-
 const showModal = ref(false);
-
 
 // const publications = ref([]);
 
@@ -103,33 +89,16 @@ onMounted(async () => {
   }
 });
 
-
-
 const cargarPublication = async (id) => {
-  openModal()
+  router.push({ name: 'pub', params: { id } })
 
 }
 
 
-// MODAL
-function openModal() {
-  showModal.value = true;
-}
-
-function handleAction(action) {
-  if (action === 'login') {
-    console.log('Ir a la pantalla de inicio de sesión');
-    router.push('/login')
-  } else if (action === 'register') {
-    console.log('Ir a la pantalla de registro');
-    router.push('/register')
-  } else if (action === 'guest') {
-    console.log('Continuar como invitado');
-  }
-}
 
 
-// const cargarPublication = async (id) => {
-//   router.push({ name: 'pub', params: { id } })
-// }
+
+
+
+
 </script>

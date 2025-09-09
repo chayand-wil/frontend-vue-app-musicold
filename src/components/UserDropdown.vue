@@ -81,8 +81,8 @@ const handleClickOutside = (e) => {
 onMounted(async () => {
   document.addEventListener('click', handleClickOutside)
   try {
-    // const res = await api.get('/me')
-    user.value = res.data
+    const res = await api.get('/profile')
+    // user.value = res.data
   } catch {
     router.push('/')
   }

@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-import IcloudBackground from './components/IcloudBackground.vue'
+import IcloudBackground from '@/components/IcloudBackground.vue'
 </script>
 
 <style>

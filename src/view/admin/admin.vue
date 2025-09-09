@@ -290,7 +290,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import api from '../axios'
+import api from '../../axios'
 import { useRouter } from 'vue-router'
 
 import { useRegistroUsuario } from '@/composables/useRegistroUsuario'
