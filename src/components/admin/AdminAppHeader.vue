@@ -1,57 +1,119 @@
 <template>
-  <header class="w-full backdrop-blur-lg bg-white/10 text-white fixed top-0 z-50 border-b border-white/10">
-    <nav ref="navRef" class="container mx-auto flex justify-between items-center py-4 px-6">
+  <header
+    class="w-full backdrop-blur-lg bg-white/10 text-white fixed top-0 z-50 border-b border-white/10"
+  >
+    <nav
+      ref="navRef"
+      class="container mx-auto flex justify-between items-center   px-6 "
+    >
       <!-- Logo que redirige al home -->
-      <router-link to="/admin/home" class="flex items-center space-x-2 hover:opacity-80 transition">
-        <img src="../../assets/logo_bueno_para.png" alt="Logo" class="h-10 w-auto" />
-        <span class="text-xl font-bold text-white">Bueno Para Mas Nada</span>
+      <router-link
+        to="/admin/home"
+        class="flex items-center space-x-2 hover:opacity-80 transition"
+      >
+        <img
+          src="../../assets/logo_bueno_para.png"
+          alt="Logo"
+          class="h-20 w-auto"
+        />
+        <span class="text-xl font-bold text-white">Bueno para mas nada</span>
       </router-link>
 
       <!-- Menú principal -->
       <ul class="flex space-x-6 items-center">
-        <li class="relative" 
-            @mouseenter="openMenu('equipo')" 
-            @mouseleave="startCloseTimer">
+        <li
+          class="relative"
+          @mouseenter="openMenu('publicar')"
+          @mouseleave="startCloseTimer"
+        >
           <button
             class="hover:text-green-600 px-2 py-1"
-            @click.prevent="toggleMenu('equipo')"
-            :aria-expanded="activeMenu === 'equipo'"
+            @click.prevent="toggleMenu('publicar')"
+            :aria-expanded="activeMenu === 'publicar'"
           >
             Publicar contenido
           </button>
 
           <div
-            v-show="activeMenu === 'equipo'"
+            v-show="activeMenu === 'publicar'"
             class="absolute mt-2 w-48 bg-white shadow-lg rounded-md py-2 z-50 transition transform origin-top"
             @mouseenter="cancelCloseTimer"
             @mouseleave="startCloseTimer"
           >
-            <a href="#" @click="router.push('/admin/home/mana')" class="block px-4 py-2 hover:bg-gray-100">Articulo</a>
-            <a href="#" @click="closeMenu" class="block px-4 py-2 hover:bg-gray-100">Promocion</a>
-            <a href="#" @click="closeMenu" class="block px-4 py-2 hover:bg-gray-100">Evento</a>
+            <a
+              href="#"
+              @click="router.push('/admin/home/mana')"
+              class="block px-4 py-2 hover:bg-gray-100"
+              >Articulo</a
+            >
+            <a
+              href="#"
+              @click="closeMenu"
+              class="block px-4 py-2 hover:bg-gray-100"
+              >Promocion</a
+            >
+            <a
+              href="#"
+              @click="closeMenu"
+              class="block px-4 py-2 hover:bg-gray-100"
+              >Evento</a
+            >
+          </div>
+        </li>
+        <li
+          class="relative"
+          @mouseenter="openMenu('administrar')"
+          @mouseleave="startCloseTimer"
+        >
+          <button
+            class="hover:text-green-600 px-2 py-1"
+            @click.prevent="toggleMenu('administrar')"
+            :aria-expanded="activeMenu === 'administrar'"
+          >
+            Administracion
+          </button>
+
+          <div
+            v-show="activeMenu === 'administrar'"
+            class="absolute mt-2 w-48 bg-white shadow-lg rounded-md py-2 z-50 transition transform origin-top"
+            @mouseenter="cancelCloseTimer"
+            @mouseleave="startCloseTimer"
+          >
+            <a
+              href="#"
+              @click="router.push('/admin/home/mana')"
+              class="block px-4 py-2 hover:bg-gray-100"
+              >usuarios</a
+            >
+            <a
+              href="#"
+              @click="closeMenu"
+              class="block px-4 py-2 hover:bg-gray-100"
+              >Reportes</a
+            >
+            <a
+              href="#"
+              @click="closeMenu"
+              class="block px-4 py-2 hover:bg-gray-100"
+              >otro</a
+            >
           </div>
         </li>
 
- 
-
- 
         <UserDropdown />
       </ul>
-
     </nav>
-
   </header>
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from "vue";
 import { useRouter } from "vue-router";
 import UserDropdown from "../admin/AdminDropdown.vue";
 
-// import 
+// import
 
 const router = useRouter();
-
 
 const isOpen = ref(false);
 const dropdownRef = ref(null);
@@ -104,25 +166,18 @@ function onDocClick(e) {
 }
 
 onMounted(() => {
-  document.addEventListener('click', onDocClick);
-
+  document.addEventListener("click", onDocClick);
 });
 onBeforeUnmount(() => {
-
-  document.removeEventListener('click', onDocClick);
+  document.removeEventListener("click", onDocClick);
 });
 
-
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
- 
- 
 
 // MODAL
 function openModal() {
   showModal.value = true;
 }
-
 
 function toggleDropdown() {
   isOpen.value = !isOpen.value;
