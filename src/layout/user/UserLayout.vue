@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import AppHeader from "../../components/cliente/AppHeader.vue";
+import AppHeader from "../../components/cliente/UserAppHeader.vue";
 // import AppSidebar from '../components/reutilizador/AppSidebar.vue'
 
 import { provide, ref, onMounted } from "vue";

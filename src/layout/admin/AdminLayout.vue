@@ -11,19 +11,27 @@
 </template>
 
 <script setup>
-import AppHeader from '../components/AppHeader.vue'
+import AppHeader from "../../components/admin/AdminAppHeader.vue";
 // import AppSidebar from '../components/reutilizador/AppSidebar.vue'
 
-import { provide, ref, onMounted } from 'vue'
-import api from '../axios'
-import { useRouter } from 'vue-router'
+import { provide, ref, onMounted } from "vue";
+import api from "../../axios";
+import { useRouter } from "vue-router";
 
 // Usuario ref for passing to PublicationView
-const usuario = ref(null)
-const router = useRouter()
+const usuario = ref(null);
+const router = useRouter();
 
- 
+onMounted(async () => {
+  try {
+    //   usuario.value = res.data
+    //   const res2 = await api.get(`/get_notifications/${usuario.value.id}`)
+  } catch (e) {
+    // router.push('/')
+  }
+});
 
+// provide('usuarioLogueado', usuario)
 </script>
 
 <style scoped>

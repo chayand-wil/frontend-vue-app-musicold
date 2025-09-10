@@ -124,17 +124,22 @@ const login = async () => {
       const token = response.data.token
       const role = response.data.user.role
       const id = response.data.user.id
-
+      const name = response.data.user.name
+      const email = response.data.user.email
 
       localStorage.setItem('token', token)
       localStorage.setItem('role', role)
       localStorage.setItem('id', id)
+      localStorage.setItem('name', name)
+      localStorage.setItem('email', email)
+
       switch (role) {
         case 'ADMIN':
           router.push('/admin')
           break
           case 'CLIENT':
-          router.push('/user/home')
+            router.push('/admin/home')
+          // router.push('/user/home')
           break
 
         default:

@@ -1,6 +1,5 @@
 <template>
-
-<!-- Contenedor flotante MENSAJES -->
+  <!-- Contenedor flotante MENSAJES -->
   <div class="fixed top-20 right-40 z-50 space-y-4 w-[300px]">
     <!-- Mensaje de éxito -->
     <div
@@ -19,15 +18,18 @@
     </div>
   </div>
 
-
   <!-- UNA PUBLICACION - DETALLE -->
   <div
     class="mt-4 w-full max-w-[900px] mx-auto bg-white/10 backdrop-blur-2xl rounded-2xl p-6 shadow-lg text-white"
   >
     <!-- Encabezado -->
     <div class="text-center mb-10">
-      <h1 class="text-3xl font-semibold text-gray-900">{{ article?.nombre }}</h1>
-      <p class="text-lg text-white mb-2">Descripcion: {{ article?.descripcion }}</p>
+      <h1 class="text-3xl font-semibold text-gray-900">
+        {{ article?.nombre }}
+      </h1>
+      <p class="text-lg text-white mb-2">
+        Discografia: {{ article?.artist?.name }}
+      </p>
     </div>
 
     <p>{{ formatFecha(publication?.created_at) }}</p>
@@ -47,13 +49,21 @@
       <div class="flex-1 space-y-6">
         <!-- Selector de tamaño -->
         <div>
-          <label class="block text-xl font-medium text-gray-100 mb-1">Estado: </label>
-          <p class="w-full border border-gray-300 rounded-md px-4 py-2 text-gray-100">
+          <label class="block text-xl font-medium text-gray-100 mb-1"
+            >Estado:
+          </label>
+          <p
+            class="w-full border border-gray-300 rounded-md px-4 py-2 text-gray-100"
+          >
             {{ article?.estado_articulo?.nombre }}
           </p>
           <br />
-          <label class="block text-xl font-medium text-gray-100 mb-1">Calidad: </label>
-          <p class="w-full border border-gray-300 rounded-md px-4 py-2 text-gray-100">
+          <label class="block text-xl font-medium text-gray-100 mb-1"
+            >Calidad:
+          </label>
+          <p
+            class="w-full border border-gray-300 rounded-md px-4 py-2 text-gray-100"
+          >
             {{ article?.calidad_articulo?.nombre }}
           </p>
         </div>
@@ -61,11 +71,12 @@
         <!-- Entrega -->
         <div>
           <p class="text-xl text-gray-400">
-            <strong>Para:</strong> {{ article?.tipo_publico?.nombre }}
+            <strong>Genero:</strong> {{ article?.tipo_publico?.nombre }}
           </p>
-          <p class="text-sm text-indigo-600">
+
+          <p class="text-sm text-verdee">
             <span class="underline cursor-pointer"
-              >Categoria: {{ article?.categoria?.nombre }}</span
+              >Categoria: {{ article?.category }}</span
             >
           </p>
         </div>
@@ -73,8 +84,11 @@
         <!-- Recoger -->
         <div>
           <p class="text-2xl text-gray-20">
-            <strong>Recoger en: </strong>
-            <span class="underline cursor-pointer">{{ ubicacion.nombre }}</span>
+            <strong>Precio: </strong>
+            <span class="underline cursor-pointer">{{ article?.price }}</span>
+          </p>
+          <p class="text-xl text-gray-400">
+            <strong>Unidades disponibles:</strong> {{ article?.quantity }}
           </p>
         </div>
 
@@ -86,7 +100,9 @@
           >
             Solicitar Artículo
           </button>
-          <button class="bg-indigo-600 text-white py-3 rounded-md hover:bg-indigo-700">
+          <button
+            class="bg-indigo-600 text-white py-3 rounded-md hover:bg-indigo-700"
+          >
             Cancelar Solicitud
           </button>
         </div>
@@ -95,17 +111,6 @@
     <br />
     <p class="text-sm text-white">Detalles: {{ article?.detalles }}</p>
   </div>
-
-
-
-
- 
-
-
-
-
-
-
 </template>
 <script setup>
 import { inject } from "vue";
@@ -117,80 +122,63 @@ import api from "../../axios";
 // Props: si viene como tarjeta
 const props = defineProps({
   publication: Object,
-//   user: Object,
-})
+  //   user: Object,
+});
 
-
-const emit = defineEmits(['enviar-id'])
-const route = useRoute()
-const publication = ref(props.publication ?? null)
-const user = ref(props.user ?? null)
-const article = ref()
-const mensaje = ref('')
-const error = ref('')
+const emit = defineEmits(["enviar-id"]);
+const route = useRoute();
+const publication = ref(props.publication ?? null);
+const user = ref(props.user ?? null);
+const article = ref();
+const mensaje = ref("");
+const error = ref("");
 // const usuarioLogueado = inject('usuarioLogueado')
 
-const ubicacion = ref('')
-const estadosAdquisicion = ref('')
+const ubicacion = ref("");
+const estadosAdquisicion = ref("");
 
 const nuevaSolicitud = ref({
   id_estado_solicitud: null,
   id_publicacion: null,
   id_usuario_nuevo: null,
-})
-
+});
 
 // Carga si no viene por prop
 const cargarInfo = async () => {
   try {
-    const res = await api.get(`/article/${route.params.id}`)
-    publication.value = res.data.data
-    // article.value = publication.value.article
+    const res = await api.get(`/article/${route.params.id}`);
+    console.log(res);
+    publication.value = res.data.data.publication;
+    article.value = res.data.data;
     // user.value = publication.value.user
   } catch (e) {
-    console.error('Error cargando información de la publicación:', e)
+    console.error("Error cargando información de la publicación:", e);
   }
-}
-
-
-
+};
 
 onMounted(async () => {
   if (!publication.value) {
     try {
-      await cargarInfo()
+      await cargarInfo();
     } catch (e) {
-      console.error('Error cargando publicación:', e)
+      console.error("Error cargando publicación:", e);
     }
   } else {
     // article.value = publication.value.article
   }
-//   console.log('Solicitudes:', publication.value)
+  //   console.log('Solicitudes:', publication.value)
   // Cargar catálogos
   if (publication.value) {
     // await cargarCatalogos()
     //pasar el id de la publicación al componente padre ( submenú)
-    emit('enviar-id', publication.value.id)
+    emit("enviar-id", publication.value.id);
   }
-})
-
-
-
+});
 
 function formatFecha(fechaRaw) {
-  if (!fechaRaw) return 'Sin fecha'
-  const fechaISO = fechaRaw.replace(' ', 'T') // Convierte a formato ISO
-  const fecha = new Date(fechaISO)
-  return isNaN(fecha) ? 'Fecha no válida' : fecha.toLocaleString('es-ES')
+  if (!fechaRaw) return "Sin fecha";
+  const fechaISO = fechaRaw.replace(" ", "T"); // Convierte a formato ISO
+  const fecha = new Date(fechaISO);
+  return isNaN(fecha) ? "Fecha no válida" : fecha.toLocaleString("es-ES");
 }
-
-
-
-
-
-
-
-
-
-
 </script>

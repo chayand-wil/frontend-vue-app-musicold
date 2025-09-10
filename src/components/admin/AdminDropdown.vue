@@ -29,7 +29,7 @@
         <p class="mb-4 text-sm text-gray-300">{{ user.email }}</p>
 
         <button
-          @click="router.push('/mi_cuenta')"
+          @click="router.push('#')"
           class="w-full text-green-400   py-2 rounded-md hover:bg-green-600 hover:text-white transition"
         >
           Mi Cuenta
@@ -59,7 +59,7 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import api from '../axios'
+import api from '../../axios'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
