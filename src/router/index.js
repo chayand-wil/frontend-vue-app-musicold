@@ -72,17 +72,19 @@ const routes = [
       },
     ],
   },
-  {
-    path: '/admin/home',
-    component: AdminLayout,
-    meta: { requiresAuth: true, role: 'ADMIN' },
-    children: [
-      { path: '', name: 'new', component: Admin },
-      { path: 'mana', name: 'mana', component: Management },
+  // {
+  //   path: '/admin/home',
+  //   component: AdminLayout,
+  //   meta: { requiresAuth: true, role: 'ADMIN' },
+  //   children: [
+  //     { path: '', name: 'new', component: Admin },
+  //     { path: 'mana', name: 'mana', component: Management },
  
-    ],
-  },
+  //   ],
+  // },
 
+
+ 
   {
     path: '/login',
     name: 'login',
