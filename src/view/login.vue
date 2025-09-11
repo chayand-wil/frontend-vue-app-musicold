@@ -80,7 +80,7 @@
 
       <button
       class="block mx-auto text-xm text-black mt-4"
-      @click="router.push('/recover_password')"
+      @click="router.push('/send_code')"
       >
       Olvidaste tu contrasena?
     </button>
@@ -120,7 +120,7 @@ const login = async () => {
         username: username.value,
         password: password.value,
       })
-      console.log(response)
+      console.log(response.data)
       const token = response.data.token
       const role = response.data.user.role
       const id = response.data.user.id

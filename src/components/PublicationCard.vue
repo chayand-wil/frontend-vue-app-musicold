@@ -1,22 +1,33 @@
 <template>
   <!-- Tarjeta de publicación -->
-<div class="w-72 aspect-square bg-white/10 backdrop-blur-sm rounded-2xl shadow-lg text-white flex-shrink-0">
-
+  <div
+    class="w-72 aspect-square bg-white/10 backdrop-blur-sm rounded-2xl shadow-lg text-white flex-shrink-0"
+  >
     <!-- Cabecera -->
-    <div class="px-4 pt-4 flex justify-between items-center text-sm text-gray-400">
-      <span>{{ publication.quantity }}</span>
-      <p>{{ new Date(publication.created_at).toLocaleString() }}</p>
+    <div
+      class="px-4 pt-4 flex justify-between items-center text-sm text-gray-400"
+    >
+      <!-- <span>{{ publication.quantity }}</span> -->
+      <p>{{ publication?.artist?.name }}</p>
       <button @click="modalVisible = true">
-        
-<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
- width="35" height="25" viewBox="0 0 1280.000000 1189.000000"
- preserveAspectRatio="xMidYMid meet">
-<metadata>
-Created by potrace 1.15, written by Peter Selinger 2001-2017
-</metadata>
-<g transform="translate(0.000000,1189.000000) scale(0.100000,-0.100000)"
-fill="#000000" stroke="none">
-<path d="M3250 11884 c-25 -2 -106 -11 -180 -20 -1485 -172 -2704 -1295 -3001
+        <svg
+          version="1.0"
+          xmlns="http://www.w3.org/2000/svg"
+          width="35"
+          height="25"
+          viewBox="0 0 1280.000000 1189.000000"
+          preserveAspectRatio="xMidYMid meet"
+        >
+          <metadata>
+            Created by potrace 1.15, written by Peter Selinger 2001-2017
+          </metadata>
+          <g
+            transform="translate(0.000000,1189.000000) scale(0.100000,-0.100000)"
+            fill="#000000"
+            stroke="none"
+          >
+            <path
+              d="M3250 11884 c-25 -2 -106 -11 -180 -20 -1485 -172 -2704 -1295 -3001
 -2764 -133 -660 -67 -1507 171 -2223 252 -753 675 -1411 1397 -2172 342 -360
 634 -630 1588 -1470 231 -203 488 -430 570 -505 1024 -920 1735 -1692 2346
 -2547 l130 -183 132 0 132 1 130 192 c557 822 1212 1560 2185 2461 191 178
@@ -24,15 +35,16 @@ fill="#000000" stroke="none">
 196 17 665 -5 835 -105 805 -441 1497 -998 2054 -557 557 -1250 894 -2054 998
 -193 24 -613 24 -810 0 -733 -93 -1379 -387 -1920 -874 -191 -172 -406 -417
 -535 -610 -30 -45 -57 -82 -60 -82 -3 0 -30 37 -60 82 -129 193 -344 438 -535
-610 -531 478 -1170 773 -1878 867 -146 20 -562 34 -677 24z"/>
-</g>
-</svg>
+610 -531 478 -1170 773 -1878 867 -146 20 -562 34 -677 24z"
+            />
+          </g>
+        </svg>
       </button>
     </div>
 
     <!-- Descripción -->
     <div class="px-4 py-1 text-sm text-white">
-      <p>{{ publication.description }}</p>
+      <p>{{ publication?.type }}</p>
     </div>
 
     <!-- Imagen con overlay -->
@@ -53,13 +65,57 @@ fill="#000000" stroke="none">
     </div>
 
     <!-- Acciones -->
-    <div class="px-4 py-3 flex justify-between text-sm border-t border-gray-700">
-      <button @click="emitirDetalle" class="flex items-center space-x-1 hover:text-blue-400">
-        Ver mas detalles
-      </button>
+    <div class="px-4 py-3 flex justify-between text-x border-t border-gray-700">
+      <span>$ {{ publication?.price }}</span>
 
       <button class="flex items-center space-x-1 hover:text-purple-400">
-        <span></span><span>🔗 Compartir</span>
+        <template v-if="publication.quantity > 10">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <span>Disponible</span>
+        </template>
+        <template
+          v-else-if="publication.quantity > 0 && publication.quantity <= 10"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <span>Pocas unidades</span>
+        </template>
+        <template v-else>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <span>Agotado</span>
+        </template>
       </button>
     </div>
   </div>
@@ -72,22 +128,22 @@ fill="#000000" stroke="none">
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import DenunciaModal from '@/components/DenunciaModal.vue'
-const { publication } = defineProps(['publication', 'motivos'])
+import { ref } from "vue";
+import DenunciaModal from "@/components/DenunciaModal.vue";
+const { publication } = defineProps(["publication", "motivos"]);
 
-const modalVisible = ref(false)
-const emit = defineEmits(['cargar-Publication', 'crear-Denuncia'])
+const modalVisible = ref(false);
+const emit = defineEmits(["cargar-Publication", "crear-Denuncia"]);
 
-const id_publicacion = ref(false)
-const id_motivo = ref(false)
+const id_publicacion = ref(false);
+const id_motivo = ref(false);
 
 function emitirDetalle() {
-  emit('cargar-Publication', publication.id)
+  emit("cargar-Publication", publication.publication.id);
 }
 
 function setConfiguracion(id) {
-  modalVisible.value = false
-  emit('crear-Denuncia', publication.id, id)
+  modalVisible.value = false;
+  emit("crear-Denuncia", publication.id, id);
 }
 </script>

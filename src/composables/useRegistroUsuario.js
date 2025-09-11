@@ -28,10 +28,11 @@ export function useRegistroUsuario() {
   function getDefaultNuevo() {
     return {
       username: 'wilson88',
-      email: 'wilson88@wil.com',
+      email: 'wilson88@gmail.com',
       name: 'wilson',
       lastname: 'chayand',
-      password: 'admin123',
+      // password: 'admin123',
+      password: '',
       // id_rol: 2,
       // id_estado: 1,
       // id_genero: 2,
@@ -46,14 +47,20 @@ export function useRegistroUsuario() {
       console.log(response.data.message)
       mensaje.value = response?.data?.message || 'Usuario creado con éxiiiiito'
       // if (response.status === 201) {
-        // setTimeout(() => (mensaje.value = ''), 2000)
-        // Si el usuario es creado con éxito, proceder con el
+        
+      setTimeout(() => {
+        const em = nuevo.email.value
+        router.push({ name: 'activate', params: { email: em } })
+        router.push("/login");
+        mensaje.value = ''
+      }, 5000)
+      
+      // Si el usuario es creado con éxito, proceder con el
 
         // registro si no es admin
         // if (!localStorage.getItem('id')) {
           // activacion de la cuenta
-          const em = nuevo.value.email
-          router.push({ name: 'activate', params: { email: em } })
+          // alert(em)
 
           // login despues de la activacion
           // await login()
@@ -63,14 +70,12 @@ export function useRegistroUsuario() {
     } catch (e) {
       console.log(e)
       error.value = e.response?.data?.message || 'Error al crear el usuario'
-      if (e.response?.status === 422) {
         const errores = e.response.data.errors
         // error.value = ' Error: ' + Object.values(errores).flat().join(', ')
         setTimeout(() => {
           mensaje.value = ''
           error.value = ''
         }, 3000)
-      }
     }
   }
 
