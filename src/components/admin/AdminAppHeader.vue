@@ -42,19 +42,25 @@
           >
             <a
               href="#"
-              @click="router.push('/admin/home/mana')"
+              @click="router.push('/admin/articles')"
               class="block px-4 py-2 hover:bg-gray-100"
-              >Articulo</a
+              >Articulos</a
             >
             <a
               href="#"
-              @click="closeMenu"
+              @click="router.push('/admin/artist')"
+              class="block px-4 py-2 hover:bg-gray-100"
+              >Artistas</a
+            >
+            <a
+              href="#"
+              @click="router.push('/admin/promotions')"
               class="block px-4 py-2 hover:bg-gray-100"
               >Promocion</a
             >
             <a
               href="#"
-              @click="closeMenu"
+              @click="router.push('/admin/events')"
               class="block px-4 py-2 hover:bg-gray-100"
               >Evento</a
             >
@@ -81,13 +87,13 @@
           >
             <a
               href="#"
-              @click="router.push('/admin/home/mana')"
+              @click="router.push('/admin/users')"
               class="block px-4 py-2 hover:bg-gray-100"
               >usuarios</a
             >
             <a
               href="#"
-              @click="closeMenu"
+              @click="router.push('/admin/reports')"
               class="block px-4 py-2 hover:bg-gray-100"
               >Reportes</a
             >

@@ -44,7 +44,7 @@ const routes = [
       },
     ]
   },
-    // Aquí se agregan las rutas de admin usando el spread operator
+  // Aquí se agregan las rutas de admin usando el spread operator
   ...adminRoutes, 
 
 {
