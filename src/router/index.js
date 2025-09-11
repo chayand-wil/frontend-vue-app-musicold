@@ -18,6 +18,9 @@ import Prueba from "@/view/admin/prueba.vue";
 import Management from "@/view/admin/Management .vue";
 // import jwtDecode from jwtDecode;
 
+// Importa las rutas de administrador
+import adminRoutes from './adminRoutes.js'; 
+
 const routes = [
   {
     path: '/',
@@ -41,24 +44,8 @@ const routes = [
       },
     ]
   },
-    {
-    path: '/admin/home',
-    component: AdminLayout,
-    meta: { requiresAuth: true, role: 'ADMIN' },
-    children: [
-      { path: '', name: 'new', component: Admin },
-      { path: 'mana', name: 'mana', component: Management },
-      // { path: '/mi_cuenta', name: 'mi_cuenta', component: InforUser },
-      // {
-      //   path: 'pub/:id/',
-      //   component: DetallePublicationLayoutView,
-      //   children: [
-      //     { path: '', name: 'pub', component: PublicationView, props: true },
-      //     { path: 'detail_song', name: 'detail_song', component: DetailPublication, props: true },
-      //   ],
-      // },
-    ]
-  },
+    // Aquí se agregan las rutas de admin usando el spread operator
+  ...adminRoutes, 
 
 {
   path: "/otro",
