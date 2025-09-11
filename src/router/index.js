@@ -4,22 +4,16 @@ import Register from "@/view/register.vue";
 import ActivacionDeLaCuenta from "@/view/activacion_cuenta.vue";
 import Forgot_password from "@/view/forgot_password.vue";
 import homeLayout from "@/layout/homeLayout.vue";
-import homeLayoutUser from "@/layout/user/UserLayout.vue";
 import HomeView from "@/view/homeView.vue";
-import UserHomeView from "@/view/user/UserHomeView.vue";
-import Admin from "@/view/admin/admin.vue";
-import DetailPublication from "@/view/user/DetailPublication.vue";
-import PublicationView from "@/view/user/PublicationView.vue";
-import DetallePublicationLayoutView from "@/layout/DetallePublicationLayoutView.vue";
-import NewPublication from "@/view/admin/NewPublication.vue";
-import AdminLayout from "@/layout/admin/AdminLayout.vue";
 import InforUser from "@/view/InfoUser.vue";
 import Prueba from "@/view/admin/prueba.vue";
-import Management from "@/view/admin/Management .vue";
 // import jwtDecode from jwtDecode;
 
 // Importa las rutas de administrador
 import adminRoutes from './adminRoutes.js'; 
+
+// Importa las rutas de administrador
+import userRoutes from './userRoutes.js'; 
 
 const routes = [
   {
@@ -27,23 +21,10 @@ const routes = [
     component: homeLayout,
     children: [{ path: '', name: 'invited', component: HomeView }],
   },
- 
-  {
-    path: '/user/home',
-    component: homeLayoutUser,
-    meta: { requiresAuth: true, role: 'CLIENT' },
-    children: [
-      { path: '', name: 'user', component: UserHomeView },
-      {
-        path: 'pub/:id/',
-        component: DetallePublicationLayoutView,
-        children: [
-          { path: '', name: 'pub', component: PublicationView, props: true },
-          { path: 'detail_song', name: 'detail_song', component: DetailPublication, props: true },
-        ],
-      },
-    ]
-  },
+
+  // Aquí se agregan las rutas de user usando el spread operator
+  ...userRoutes, 
+
   // Aquí se agregan las rutas de admin usando el spread operator
   ...adminRoutes, 
 

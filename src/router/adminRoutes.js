@@ -6,7 +6,7 @@ import NewArticle from "@/view/admin/NewArticle.vue";
 import NewArtist from "@/view/admin/NewArtist.vue"; 
 import NewUser from "@/view/admin/NewUser.vue"; 
 import Report from "@/view/admin/Report.vue"; 
-import Article from "@/view/admin/Article.vue"; 
+//import Article from "@/view/admin/Article.vue"; 
 
 
 const adminRoutes = [
