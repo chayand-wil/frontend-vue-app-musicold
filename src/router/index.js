@@ -1,8 +1,8 @@
-import Login from '@/view/login.vue';
+import Login from '@/view//auth/login.vue';
 import { createRouter, createWebHistory } from 'vue-router';
-import Register from '@/view/register.vue';
-import ActivacionDeLaCuenta from '@/view/activacion_cuenta.vue';
-import Forgot_password from '@/view/forgot_password.vue';
+import Register from '@/view/auth/register.vue';
+import ActivacionDeLaCuenta from '@/view/auth/activacion_cuenta.vue';
+import Forgot_password from '@/view//auth/forgot_password.vue';
 import homeLayout from '@/layout/homeLayout.vue';
 import homeLayoutUser from '@/layout/user/UserLayout.vue';
 import HomeView from '@/view/homeView.vue';
@@ -14,10 +14,9 @@ import AdminLayout from '@/layout/admin/AdminLayout.vue';
 import InforUser from '@/view/InfoUser.vue';
 import CatotegorysLayout from '@/layout/user/CatotegorysLayout.vue';
 import EventsView from '@/view/EventsView.vue';
-import PromotionsViewVue from '@/view/PromotionsView.vue.vue';
+import PromotionsViewVue from '@/view/PromotionsView.vue';
 import FiltrarCatalogoView from '@/view/FiltrarCatalogoView.vue';
-import Cart from '@/view/user/Cart.vue';
-import SendCodePassword from '@/view/SendCodePassword.vue';
+import SendCodePassword from '@/view//auth/SendCodePassword.vue';
 import Admin from "@/view/admin/admin.vue";
 import Management from "@/view/admin/Management .vue";
 import NewPublication from "@/view/admin/NewPublication.vue"; // Asegúrate de importar cualquier componente necesario
@@ -25,6 +24,10 @@ import NewArticle from "@/view/admin/NewArticle.vue";
 import NewArtist from "@/view/admin/NewArtist.vue"; 
 import NewUser from "@/view/admin/NewUser.vue"; 
 import Report from "@/view/admin/Report.vue";  
+import CartLayout from '@/layout/user/CartLayout.vue';
+import MyArticles from '@/view/user/cart/MyArticles.vue';
+import WishList from '@/view/user/cart/WishList.vue';
+import Cart from '@/view/user/cart/Cart.vue';
 
 
 
@@ -74,8 +77,14 @@ const routes = [
       },
       {
         path: 'cart',
-        name: 'cart',
-        component: Cart,
+        component: CartLayout,
+        children: [
+          {path: '', name:'cart', component: Cart},
+          {path: 'my_articles', name:'my_articles', component: MyArticles},
+          {path: 'wish_list', name:'wish_list', component: WishList}
+
+        ]
+
       },
     ],
   },

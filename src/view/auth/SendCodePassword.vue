@@ -84,7 +84,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import api from '../axios';
+import api from '../../axios';
 
 const router = useRouter();
 const focus_mail = ref(false);

@@ -129,7 +129,7 @@
 
 <script setup>
 import { ref } from "vue";
-import DenunciaModal from "@/components/DenunciaModal.vue";
+import DenunciaModal from "@/components/ModalWishList.vue";
 const { publication } = defineProps(["publication", "motivos"]);
 
 const modalVisible = ref(false);
