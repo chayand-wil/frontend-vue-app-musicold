@@ -12,7 +12,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
-import { fetchArticles, createArticle, updateArticle, deleteArticle } from '../../services/article';
+import { fetchArticles, createArticle, updateArticle, deleteArticle } from '../../services/article.js';
 import ArtistCrud from './NewArtist.vue'; // <-- ¡Importa el nuevo componente aquí!
 import NewArticle from './NewArticle.vue';
 

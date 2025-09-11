@@ -5,6 +5,7 @@ import NewPublication from "@/view/admin/NewPublication.vue"; // Asegúrate de i
 import NewArticle from "@/view/admin/NewArticle.vue"; 
 import NewArtist from "@/view/admin/NewArtist.vue"; 
 import NewUser from "@/view/admin/NewUser.vue"; 
+import Report from "@/view/admin/Report.vue"; 
 import Article from "@/view/admin/Article.vue"; 
 
 
@@ -47,7 +48,7 @@ const adminRoutes = [
         { 
         path: 'reports', // Ruta completa: '/admin/management'
         name: 'admin_reports', 
-        component: Management 
+        component: Report 
       },
       { 
         path: 'new-publication', // Ejemplo de una ruta adicional

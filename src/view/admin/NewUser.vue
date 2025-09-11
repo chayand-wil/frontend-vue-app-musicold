@@ -195,10 +195,3 @@ onMounted(() => {
 });
 </script>
 
-<style>
-/* Se asume que Tailwind CSS está disponible */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-.font-sans {
-  font-family: 'Inter', sans-serif;
-}
-</style>
