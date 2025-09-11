@@ -90,9 +90,10 @@ import { ref, onMounted } from 'vue'
 import api from "../axios"
 
 import { useRouter } from "vue-router"
+import { useRoute } from "vue-router"
 
 const router = useRouter();
-// const focus_mail = ref(false);
+const route = useRoute();
 const focus_code = ref(false);
 const mensaje = ref('');
 const email = ref('');
@@ -102,7 +103,7 @@ const error = ref('');
 const SubmitEvent = ref(false);
 
 onMounted(async () => {
-  const id = router.params.email;
+  const id = route.params.email;
   if (id) {
     email.value = id;
   }

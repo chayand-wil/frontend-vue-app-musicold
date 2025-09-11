@@ -189,6 +189,11 @@ const change_password = async () => {
       mensaje.value = response?.data?.message || 'Cambio de contrasena Exitoso w'
       if (response.status === 200) {
       }
+
+
+
+
+      
       router.push('/login')
     } catch (err) {
       // password.value = ''
