@@ -65,7 +65,7 @@
 
   <!-- UNA PUBLICACION - DETALLE -->
   <div
-    class="mt-24 w-full max-w-[900px] mx-auto bg-white/10 backdrop-blur-2xl rounded-2xl p-6 shadow-lg text-white"
+    class="mt-4 w-full mt-40 max-w-[700px] mx-auto bg-white/10 backdrop-blur-2xl rounded-2xl p-6 shadow-lg text-white"
   >
     <!-- Encabezado -->
     <div class="text-center mb-10">
@@ -73,18 +73,16 @@
         {{ article?.nombre }}
       </h1>
       <p class="text-lg text-white mb-2">
-        Discografia: {{ article?.artist?.name }}
+        {{ article?.title }}
       </p>
     </div>
 
-    <p>Anio de publicacion: {{ article?.publication_year }}</p>
-
     <!-- Contenido principal -->
-    <div class="flex mt-4 flex-col lg:flex-row gap-4 w-full max-w-[1600px]">
+    <div class="flex flex-col lg:flex-row gap-4 w-full max-w-[1600px]">
       <!-- Imagen del producto -->
       <div class="flex-1 flex justify-center">
         <img
-          :src="publication?.image"
+          :src="article?.publication?.image"
           alt="image del articulo"
           class="w-400 h-auto rounded-xl shadow"
         />
@@ -126,131 +124,53 @@
           </p>
         </template>
 
-        <!-- Entrega -->
         <div>
+          <p class="text-2xl text-gray-20">
+            <span>Discografia: {{ article?.artist?.name }}</span>
+          </p>
+        </div>
+        <!-- <div>
           <p class="text-xl text-gray-400">
             <strong>Genero:</strong> {{ article?.music_genre?.description }}
           </p>
-        </div>
-
-        <button
-          @click="show = true"
-          class="px-4 py-2 bg-gray-800 text-white rounded-lg"
-        >
-          Ver lista de canciones
-        </button>
-
-        <!-- Recoger -->
-        <template v-if="article?.quantity > 10">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-              clip-rule="evenodd"
-            />
-          </svg>
-          <span>Disponible: {{ article?.quantity }} unidades</span>
-        </template>
-        <template v-else-if="article?.quantity > 0 && article?.quantity <= 10">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-              clip-rule="evenodd"
-            />
-          </svg>
-          <span>Pocas unidades: {{ article?.quantity }}</span>
-        </template>
-        <template v-else>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-              clip-rule="evenodd"
-            />
-          </svg>
-          <span>Agotado</span>
-        </template>
-
+        </div> -->
         <div>
-          <p class="text-2xl text-gray-20">
-            <span class="underline">Precio: $ {{ article?.price }}</span>
+          <p class="text-xl text-gray-400">
+            <strong>Fecha</strong> {{ formatFecha(article?.start_date) }}
           </p>
         </div>
+
+
 
         <!-- Botones -->
         <div
           class="flex items-center justify-between border-2 border-gray-300 rounded-xl px-4 py-2 w-40"
         >
-          <button @click="sumarCantidad" class="text-2xl">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6 text-white"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M12 4v16m8-8H4"
-              />
-            </svg>
-          </button>
-          <span class="text-lg font-bold">{{ cantidadComprar }}</span>
-          <button @click="restarCantidad" class="text-2xl">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6 text-white"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M20 12H4"
-              />
-            </svg>
-          </button>
-        </div>
-        <div class="flex flex-col gap-3">
-          <button
-            @click="solicitarArticulo"
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        <span>Sin limite de asistencia</span>
+
+      </div>
+      <div class="flex flex-col gap-3">
+        <button
+            @click="apuntar_asistencia"
             class="bg-black text-white py-3 rounded-md hover:bg-gray-800"
           >
-            Agregar al carrito
-          </button>
-          <button
-            class="bg-indigo-600 text-white py-3 rounded-md hover:bg-indigo-700"
-          >
-            Agregar la lista de deseos
+            Asistir al evento
           </button>
         </div>
       </div>
     </div>
-    <br />
-    <p class="text-sm text-white">
-      Dimensiones del artículo: Ancho {{ article?.dimension_x }}, Alto
-      {{ article?.dimension_y }}
-    </p>
   </div>
 </template>
 <script setup>
@@ -259,6 +179,7 @@ import { ref } from "vue";
 import { onMounted } from "vue";
 import { useRoute } from "vue-router";
 import api from "../../axios";
+import { fetchOneEvent } from "../../services/event";
 
 // Props: si viene como tarjeta
 const props = defineProps({
@@ -285,22 +206,19 @@ const nuevaSolicitud = ref({
 });
 
 // Carga si no viene por prop
-const cargarInfo = async () => {
+const loadEvent = async () => {
   try {
-    const res = await api.get(`/article/${route.params.id}`);
-    console.log(res);
-    publication.value = res.data.data.publication;
-    article.value = res.data.data;
-    // user.value = publication.value.user
-  } catch (e) {
-    console.error("Error cargando información de la publicación:", e);
+    const response = await fetchOneEvent(1);
+    article.value = response;
+  } catch (error) {
+    console.error("Error al obtener los usuarios:", error);
   }
 };
 
 onMounted(async () => {
   if (!publication.value) {
     try {
-      await cargarInfo();
+      await loadEvent();
     } catch (e) {
       console.error("Error cargando publicación:", e);
     }

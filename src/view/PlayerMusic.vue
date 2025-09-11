@@ -23,7 +23,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
-import { fetchOneEvent } from './../services/event';
+import { fetchOneEvent } from '../services/event';
 
 const event = ref({});
 

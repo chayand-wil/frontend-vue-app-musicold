@@ -111,7 +111,7 @@
     <div class="flex overflow-x-auto space-x-6 pb-4 scrollbar-hide">
       <PublicationCard
         v-for="item in publications"
-        :key="item.publication.id"
+        :key="item.id"
         :publication="item"
         @cargar-Publication="cargarPublication"
         class="w-72 flex-shrink-0"
