@@ -181,7 +181,7 @@ const change_password = async () => {
     router.push('/login')
   } else {
     try {
-      const response = await api.post('/recovery_password', {
+      const response = await api.post('/password-recovery', {
         email: email.value,
         code: code.value,
         password: password.value,
