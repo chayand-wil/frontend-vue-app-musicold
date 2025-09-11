@@ -6,7 +6,7 @@ USE spotify_old;
 -- ==========================
 -- TABLA DE USUARIOS
 -- ==========================
-CREATE TABLE user (
+CREATE TABLE app_user (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(100) NOT NULL,
     email VARCHAR(150) UNIQUE NOT NULL,
@@ -91,10 +91,10 @@ CREATE TABLE songs (
 -- WISHLIST
 -- ==========================
 CREATE TABLE wishlist (
-    id_user INT,
+    app_user_id INT,
     id_publication INT,
-    PRIMARY KEY (id_user, id_publication),
-    FOREIGN KEY (id_user) REFERENCES user(id),
+    PRIMARY KEY (app_user_id, id_publication),
+    FOREIGN KEY (app_user_id) REFERENCES app_user(id),
     FOREIGN KEY (id_publication) REFERENCES publication(id)
 );
 
@@ -103,10 +103,10 @@ CREATE TABLE wishlist (
 -- ==========================
 CREATE TABLE rating (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    id_user INT,
+    app_user_id INT,
     id_publication INT,
     score INT,
-    FOREIGN KEY (id_user) REFERENCES user(id),
+    FOREIGN KEY (app_user_id) REFERENCES app_user(id),
     FOREIGN KEY (id_publication) REFERENCES publication(id)
 );
 
@@ -115,11 +115,11 @@ CREATE TABLE rating (
 -- ==========================
 CREATE TABLE comment (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    id_user INT,
+    app_user_id INT,
     id_publication INT,
     id_comment_status ENUM('visible','hidden','ban') NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_user) REFERENCES user(id),
+    FOREIGN KEY (app_user_id) REFERENCES app_user(id),
     FOREIGN KEY (id_publication) REFERENCES publication(id)
 );
 
@@ -174,10 +174,10 @@ CREATE TABLE event (
 -- ASISTENCIA DE USUARIOS
 -- ==========================
 CREATE TABLE user_attendance (
-    id_user INT,
+    app_user_id INT,
     id_publication INT,
-    PRIMARY KEY (id_user, id_publication),
-    FOREIGN KEY (id_user) REFERENCES user(id),
+    PRIMARY KEY (app_user_id, id_publication),
+    FOREIGN KEY (app_user_id) REFERENCES app_user(id),
     FOREIGN KEY (id_publication) REFERENCES publication(id)
 );
 
@@ -186,10 +186,10 @@ CREATE TABLE user_attendance (
 -- ==========================
 CREATE TABLE chat_comment (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    id_user INT,
+    app_user_id INT,
     id_publication INT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_user) REFERENCES user(id),
+    FOREIGN KEY (app_user_id) REFERENCES app_user(id),
     FOREIGN KEY (id_publication) REFERENCES publication(id)
 );
 
@@ -198,13 +198,13 @@ CREATE TABLE chat_comment (
 -- ==========================
 CREATE TABLE `order` (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    id_user INT,
+    app_user_id INT,
     id_publication INT,
     quantity INT,
     state ENUM('completed', 'shipped', 'ready_to_shipped') NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_user) REFERENCES user(id),
+    FOREIGN KEY (app_user_id) REFERENCES app_user(id),
     FOREIGN KEY (id_publication) REFERENCES publication(id)
 );
 
@@ -215,8 +215,8 @@ CREATE TABLE notification (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(150),
     detail TEXT,
-    id_user INT,
+    app_user_id INT,
     id_publication INT,
-    FOREIGN KEY (id_user) REFERENCES user(id),
+    FOREIGN KEY (app_user_id) REFERENCES app_user(id),
     FOREIGN KEY (id_publication) REFERENCES publication(id)
 );

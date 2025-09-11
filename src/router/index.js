@@ -1,0 +1,120 @@
+import Login from "@/view/login.vue";
+import { createRouter, createWebHistory } from "vue-router";
+import Register from "@/view/register.vue";
+import ActivacionDeLaCuenta from "@/view/activacion_cuenta.vue";
+import Forgot_password from "@/view/forgot_password.vue";
+import homeLayout from "@/layout/homeLayout.vue";
+import HomeView from "@/view/homeView.vue";
+import InforUser from "@/view/InfoUser.vue";
+import Prueba from "@/view/admin/prueba.vue";
+// import jwtDecode from jwtDecode;
+
+// Importa las rutas de administrador
+import adminRoutes from './adminRoutes.js'; 
+
+// Importa las rutas de administrador
+import userRoutes from './userRoutes.js'; 
+
+const routes = [
+  {
+    path: '/',
+    component: homeLayout,
+    children: [{ path: '', name: 'invited', component: HomeView }],
+  },
+
+  // Aquí se agregan las rutas de user usando el spread operator
+  ...userRoutes, 
+
+  // Aquí se agregan las rutas de admin usando el spread operator
+  ...adminRoutes, 
+
+{
+  path: "/otro",
+  name: "otro",
+  component: Prueba,
+},
+
+
+
+  {
+    path: "/login",
+    name: "login",
+    component: Login,
+  },
+  // {
+  //   path: "/admin",
+  //   name: "admin",
+  //   meta: { requiresAuth: true, role: 'ADMIN' },
+  //   component: Admin,
+  // },
+
+
+
+
+
+
+
+
+
+
+  {
+    path: "/recover_password",
+    name: "recover_password",
+    component: Forgot_password,
+  },
+  {
+    path: "/register",
+    name: "register",
+    component: Register,
+  },
+
+  {
+    path: "/activate_acount/:email/",
+    name: "activate",
+    component: ActivacionDeLaCuenta,
+    props: true,
+  },
+ 
+  // nada -  captura de rutas no encontradas
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'not-found',
+    redirect: { name: 'invited' },
+  },
+];
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+});
+
+// Middleware de autenticación
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
+
+
+
+//  // Si la ruta requiere autenticación y no hay token → redirige a login
+//   if (to.meta.requiresAuth && !token) {
+//     return next({ name: "login" });
+//   }
+
+//   // Si la ruta tiene un rol específico y el usuario no coincide → login
+//   if (to.meta.role && to.meta.role !== role) {
+//     return next({ name: "login" });
+//   }
+
+
+// //Si esta autenticado y quiere entrar a rutas publicas
+// const publicRoutes = ['login', 'register', 'invited', 'recover_password', 'activate']
+
+//  if (token && publicRoutes.includes(to.name)) {
+//     if (role === 'ADMIN') return next({ name: 'admin' })
+//     if (role === 'CLIENT') return next({ name: 'user' })
+//   }
+
+
+  next();
+});
+export default router;
