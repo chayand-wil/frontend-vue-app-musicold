@@ -14,6 +14,12 @@
   >
     {{ errorMessage }}
   </div>
+  <!-- Modal -->
+  <InviteModal
+    :show="showModal"
+    @close="showModal = false"
+    @action="handleAction"
+  />
 
   <!-- Contenedor principal -->
   <div class="max-w-5xl mx-auto px-4">
@@ -115,15 +121,15 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { onMounted } from 'vue';
-import { useRouter } from 'vue-router';
-import api from '../../axios';
-import PublicationCard from '@/components/PublicationCard.vue';
+import { ref } from "vue";
+import { onMounted } from "vue";
+import { useRouter } from "vue-router";
+import api from "../../axios";
+import PublicationCard from "@/components/PublicationCard.vue";
 
 const router = useRouter();
-const errorMessage = ref('');
-const successMessage = ref('');
+const errorMessage = ref("");
+const successMessage = ref("");
 
 const showModal = ref(false);
 
@@ -134,14 +140,14 @@ const carousel = ref(null);
 
 const cargarPublications = async () => {
   try {
-    const res = await api.get('/article');
+    const res = await api.get("/article");
     publications.value = res.data.data;
-    console.log(publications.value)
+    console.log(publications.value);
     //filtrar
     // filtrar()
   } catch (e) {
     errorMessage.value =
-      e?.response?.data?.message || 'Error al cargar publicaciones';
+      e?.response?.data?.message || "Error al cargar publicaciones";
   }
 };
 
@@ -160,16 +166,36 @@ onMounted(async () => {
 });
 
 const cargarPublication = async (id) => {
-  router.push({ name: 'pub', params: { id } });
+  router.push({ name: "pub", params: { id } });
 };
 
 const scrollLeft = () => {
-  carousel.value.scrollBy({ left: -300, behavior: 'smooth' });
+  carousel.value.scrollBy({ left: -300, behavior: "smooth" });
 };
 
 const scrollRight = () => {
-  carousel.value.scrollBy({ left: 300, behavior: 'smooth' });
+  carousel.value.scrollBy({ left: 300, behavior: "smooth" });
 };
+
+
+
+function openModal() {
+  showModal.value = true;
+}
+
+function handleAction(action) {
+  if (action === 'login') {
+    console.log('Ir a la pantalla de inicio de sesión');
+    router.push('/login')
+  } else if (action === 'register') {
+    console.log('Ir a la pantalla de registro');
+    router.push('/register')
+  } else if (action === 'guest') {
+    console.log('Continuar como invitado');
+  }
+}
+
+
 </script>
 
 <style>

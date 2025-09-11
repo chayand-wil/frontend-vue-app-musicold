@@ -99,7 +99,7 @@ onMounted(async () => {
 });
 
 const cargarPublication = async (id) => {
-  // openModal()
+  openModal()
 }
 
 

@@ -42,7 +42,7 @@ const routes = [
   {
     path: '/user',
     component: homeLayoutUser,
-    meta: { requiresAuth: true, role: 'CLIENT' },
+    // meta: { requiresAuth: true, role: 'CLIENT' },
     children: [
       {
         path: 'home',
@@ -196,23 +196,23 @@ router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token');
   const role = localStorage.getItem('role');
 
-  //  // Si la ruta requiere autenticación y no hay token → redirige a login
-  //   if (to.meta.requiresAuth && !token) {
-  //     return next({ name: 'login' });
-  //   }
+   // Si la ruta requiere autenticación y no hay token → redirige a login
+    if (to.meta.requiresAuth && !token) {
+      return next({ name: 'login' });
+    }
 
-  //   // Si la ruta tiene un rol específico y el usuario no coincide → login
-  //   if (to.meta.role && to.meta.role !== role) {
-  //     return next({ name: 'login' });
-  //   }
+    // Si la ruta tiene un rol específico y el usuario no coincide → login
+    if (to.meta.role && to.meta.role !== role) {
+      return next({ name: 'login' });
+    }
 
-  // //Si esta autenticado y quiere entrar a rutas publicas
-  // const publicRoutes = ['login', 'register', 'invited', 'recover_password', 'activate']
+  //Si esta autenticado y quiere entrar a rutas publicas
+  const publicRoutes = ['login', 'register', 'invited', 'recover_password', 'activate']
 
-  //  if (token && publicRoutes.includes(to.name)) {
-  //     if (role === 'ADMIN') return next({ name: 'admin' })
-  //     if (role === 'CLIENT') return next({ name: 'user' })
-  //   }
+   if (token && publicRoutes.includes(to.name)) {
+      if (role === 'ADMIN') return next({ name: 'admin' })
+      if (role === 'CLIENT') return next({ name: 'user' })
+    }
 
   next();
 });

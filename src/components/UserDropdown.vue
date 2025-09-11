@@ -100,10 +100,11 @@ onBeforeUnmount(() => {
 })
 
 const logout = async () => {
-  try {s
+  try {
     // await api.post('/logout')
   } catch {}
   localStorage.clear()
-  router.push('/')
+  router.push('/user/home')
+  window.location.href = '/'
 }
 </script>

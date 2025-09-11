@@ -1,5 +1,11 @@
 <template>
- 
+   <!-- Modal -->
+  <InviteModal
+    :show="showModal"
+    @close="showModal = false"
+    @action="handleAction"
+  />
+
   <header
     class="w-full backdrop-blur-lg bg-white/10 text-white fixed top-0 z-50 border-b border-white/10"
   >
@@ -17,7 +23,7 @@
         />
         <span class="text-xl font-bold text-white">Bueno para mas nada</span>
       </router-link>
-
+ 
       <!-- Menú centrado -->
       <nav class="flex items-center space-x-6 relative z-50">
         <router-link
@@ -57,22 +63,7 @@
 			c-28.05,0-51,22.95-51,51s22.95,51,51,51s51-22.95,51-51S436.05,408,408,408z"
                 />
               </g>
-            </g>
-            <g></g>
-            <g></g>
-            <g></g>
-            <g></g>
-            <g></g>
-            <g></g>
-            <g></g>
-            <g></g>
-            <g></g>
-            <g></g>
-            <g></g>
-            <g></g>
-            <g></g>
-            <g></g>
-            <g></g>
+            </g> 
           </svg>
         </router-link>
 
@@ -159,11 +150,28 @@
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import UserDropdown from "../../components/UserDropdown.vue";
 import Notifications from "../Notifications.vue";
+import InviteModal from "../../components/InviteModal.vue";
 import router from "@/router";
 
 const isOpen = ref(false);
 const dropdownRef = ref(null);
 const showModal = ref(false);
+const isLoggedIn = ref(false);
+
+ 
+
+onMounted(async () => {
+  try {
+    const token = localStorage.getItem("token");
+    if (token) {
+      showModal.value = false;
+    } else {
+      openModal();
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 function toggleDropdown() {
   isOpen.value = !isOpen.value;
@@ -189,22 +197,22 @@ const cargarPublication = async (id) => {
 };
 
 
-// // MODAL
-// function openModal() {
-//   showModal.value = true;
-// }
+// MODAL
+function openModal() {
+  showModal.value = true;
+}
 
-// function handleAction(action) {
-//   if (action === "login") {
-//     console.log("Ir a la pantalla de inicio de sesión");
-//     router.push("/login");
-//   } else if (action === "register") {
-//     console.log("Ir a la pantalla de registro");
-//     router.push("/register");
-//   } else if (action === "guest") {
-//     console.log("Continuar como invitado");
-//   }
-// }
+function handleAction(action) {
+  if (action === "login") {
+    console.log("Ir a la pantalla de inicio de sesión");
+    router.push("/login");
+  } else if (action === "register") {
+    console.log("Ir a la pantalla de registro");
+    router.push("/register");
+  } else if (action === "guest") {
+    console.log("Continuar como invitado");
+  }
+}
 </script>
 
 <style scoped>
