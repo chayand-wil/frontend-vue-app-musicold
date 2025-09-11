@@ -70,10 +70,10 @@
     <!-- Encabezado -->
     <div class="text-center mb-10">
       <h1 class="text-3xl font-semibold text-gray-900">
-        {{ article?.nombre }}
+        {{ event?.nombre }}
       </h1>
-      <p class="text-lg text-white mb-2">
-        {{ article?.title }}
+      <p class="mb-2 text-lg font-bold text-blue-400">
+        {{ event?.title }}
       </p>
     </div>
 
@@ -82,7 +82,7 @@
       <!-- Imagen del producto -->
       <div class="flex-1 flex justify-center">
         <img
-          :src="article?.publication?.image"
+          :src="event?.publication?.image"
           alt="image del articulo"
           class="w-400 h-auto rounded-xl shadow"
         />
@@ -93,14 +93,14 @@
         <!-- Selector de tamaño -->
 
         <!-- si type == vinyl mostrar color -->
-        <template v-if="article?.type === 'vinyl'">
+        <template v-if="event?.type === 'vinyl'">
           <label class="block text-xl font-medium text-gray-100 mb-1"
             >Vinyl:</label
           >
           <p
             class="w-full border border-gray-300 rounded-md px-4 py-2 text-gray-100"
           >
-            Color {{ article?.color }}
+            Color {{ event?.color }}
           </p>
           <label class="block text-xl font-medium text-gray-100 mb-1"
             >Formato/duracion:</label
@@ -108,61 +108,66 @@
           <p
             class="w-full border border-gray-300 rounded-md px-4 py-2 text-gray-100"
           >
-            Capacidad: {{ article?.category }} Pulgadas
+            Capacidad: {{ event?.category }} Pulgadas
           </p>
         </template>
 
         <!-- si type == vinyl mostrar color -->
-        <template v-if="article?.type === 'cassettes'">
+        <template v-if="event?.type === 'cassettes'">
           <label class="block text-xl font-medium text-gray-100 mb-1"
             >Cassette</label
           >
           <p
             class="w-full border border-gray-300 rounded-md px-4 py-2 text-gray-100"
           >
-            Estado: {{ article?.category }}
+            Estado: {{ event?.category }}
           </p>
         </template>
 
         <div>
           <p class="text-2xl text-gray-20">
-            <span>Discografia: {{ article?.artist?.name }}</span>
+            <span>Discografia: {{ event?.artist?.name }}</span>
           </p>
         </div>
         <!-- <div>
           <p class="text-xl text-gray-400">
-            <strong>Genero:</strong> {{ article?.music_genre?.description }}
+            <strong>Genero:</strong> {{ event?.music_genre?.description }}
           </p>
         </div> -->
         <div>
           <p class="text-xl text-gray-400">
-            <strong>Fecha</strong> {{ formatFecha(article?.start_date) }}
+            <strong>Fecha</strong> {{ formatFecha(event?.start_date) }}
           </p>
         </div>
-
-
 
         <!-- Botones -->
         <div
           class="flex items-center justify-between border-2 border-gray-300 rounded-xl px-4 py-2 w-40"
         >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-            clip-rule="evenodd"
-          />
-        </svg>
-        <span>Sin limite de asistencia</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <span>Sin limite de asistencia</span>
+        </div>
 
-      </div>
-      <div class="flex flex-col gap-3">
-        <button
+        <!-- Reproductor de audio -->
+        <audio
+          :src="event?.publication?.audio"
+          controls
+          class="w-full my-2"
+        ></audio>
+
+        <div class="flex flex-col gap-3">
+          <button
             @click="apuntar_asistencia"
             class="bg-black text-white py-3 rounded-md hover:bg-gray-800"
           >
@@ -191,7 +196,7 @@ const emit = defineEmits(["enviar-id"]);
 const route = useRoute();
 const publication = ref(props.publication ?? null);
 const user = ref(props.user ?? null);
-const article = ref();
+const event = ref();
 const mensaje = ref("");
 const error = ref("");
 const cantidadComprar = ref(1);
@@ -209,7 +214,7 @@ const nuevaSolicitud = ref({
 const loadEvent = async () => {
   try {
     const response = await fetchOneEvent(1);
-    article.value = response;
+    event.value = response;
   } catch (error) {
     console.error("Error al obtener los usuarios:", error);
   }
@@ -223,7 +228,7 @@ onMounted(async () => {
       console.error("Error cargando publicación:", e);
     }
   } else {
-    // article.value = publication.value.article
+    // event.value = publication.value.event
   }
   //   console.log('Solicitudes:', publication.value)
   // Cargar catálogos
@@ -244,7 +249,7 @@ function formatFecha(fechaRaw) {
 //funcion de sumar y restar a la cantidad de productos en el carrito
 const sumarCantidad = () => {
   alert(cantidadComprar.value);
-  if (article.value && cantidadComprar.value < article.value.quantity) {
+  if (event.value && cantidadComprar.value < event.value.quantity) {
     cantidadComprar.value++;
   }
 };
