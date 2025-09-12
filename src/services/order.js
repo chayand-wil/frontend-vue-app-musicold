@@ -25,6 +25,15 @@ export const fetchCreateOrder = async (id) => {
     throw error; // Re-lanzar el error para manejarlo en el componente
   }
 };
+export const fetchUpdateOrder = async (id, orderData) => {
+  try {
+    const response = await api.put(`${API_URL}/${id}`, orderData);
+    return response.data;
+  } catch (error) {
+    console.error('Error en fetchUpdateOrder:', error);
+    throw error; // Re-lanzar el error para manejarlo en el componente
+  }
+};
  
 
 
