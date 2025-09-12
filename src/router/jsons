@@ -1,53 +1,8 @@
+  
 
 
 
-
-{
-  "data": [
-    {
-      "artist": {
-        "id": 1,
-        "name": "rojo"
-      },
-      "publication": {
-        "id": 10,
-        "publication_type": {
-          "id": 1,
-          "description": "Álbum"
-        },
-        "image": "https://bpmn-archivos-semi1-g2.s3.us-east-2.amazonaws.com/fotos/1757538802309_peli.jpg",
-        "audio": "https://bpmn-archivos-semi1-g2.s3.us-east-2.amazonaws.com/audios/1757538796471_Nothing But Thieves - Moral Panic.mp3",
-        "status": "available",
-        "updated_at": "2025-09-10T21:13:22",
-        "created_at": "2025-09-10T21:13:22"
-      },
-      "title": "Nuevo Título del Evento111",
-      "start_date": "2025-11-20T20:30:00"
-    }
-  ]
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//eventos
 {
   "data": [
     {

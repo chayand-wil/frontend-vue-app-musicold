@@ -15,6 +15,15 @@ export const fetchArticles = async () => {
     throw error; // Re-lanzar el error para manejarlo en el componente
   }
 };
+export const fetchOneArticle = async (id) => {
+  try {
+    const response = await api.get(`${API_URL}/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error en fetchOneArticle:', error);
+    throw error; // Re-lanzar el error para manejarlo en el componente
+  }
+};
 
 /**
  * Crea un nuevo artículo.
@@ -61,3 +70,4 @@ export const deleteArticle = async (id) => {
     throw error;
   }
 };
+
