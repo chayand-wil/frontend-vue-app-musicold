@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto my-20 p-4 sm:p-8 font-sans">
     <h1 class="text-3xl sm:text-4xl font-bold text-center text-gray-800 mb-6">
-        Gestión de Artistas 🎤
+        Gestión de Genero Musical 🎤
     </h1>
     <div class="flex justify-end mb-4">
       <button
@@ -18,13 +18,15 @@
           <tr>
             <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
             <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
+            <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Genero</th>
             <th class="py-3 px-6 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
           <tr v-for="artist in artists" :key="artist.id">
             <td class="py-4 px-6 whitespace-nowrap text-sm font-medium text-gray-900">{{ artist.id }}</td>
-            <td class="py-4 px-6 whitespace-nowrap text-sm text-gray-500">{{ artist.name }}</td>
+            <td class="py-4 px-6 whitespace-nowrap text-sm text-gray-500">{{ artist.description }}</td>
+            <td class="py-4 px-6 whitespace-nowrap text-sm text-gray-500">{{ artist.slug }}</td>
             <td class="py-4 px-6 whitespace-nowrap text-right text-sm font-medium">
               <div class="flex items-center justify-center space-x-2">
                 <button @click="openModal('edit', artist)" class="text-blue-500 hover:text-blue-700 transform hover:scale-110">
@@ -51,11 +53,21 @@
         <h2 class="text-2xl font-bold mb-4">{{ modalTitle }}</h2>
         <form @submit.prevent="saveArtist">
           <div class="mb-4">
-            <label for="artist_name" class="block text-gray-700 text-sm font-bold mb-2">Nombre del Artista:</label>
+            <label for="artist_name" class="block text-gray-700 text-sm font-bold mb-2">Nombre:</label>
             <input
               type="text"
-              id="artist_name"
+              id="artist_description"
               v-model="currentArtist.description"
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              required
+            />
+          </div>
+            <div class="mb-4">
+            <label for="artist_name" class="block text-gray-700 text-sm font-bold mb-2">Genero:</label>
+            <input
+              type="text"
+              id="artist_slug"
+              v-model="currentArtist.slug"
               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               required
             />
@@ -105,6 +117,7 @@ const loadArtists = async () => {
 const saveArtist = async () => {
   try {
     if (modalMode.value === 'create') {
+        console.log(currentArtist.value)
       await createMusicGenre(currentArtist.value);
     } else {
       await updateMusicGenre(currentArtist.value.id, currentArtist.value);
