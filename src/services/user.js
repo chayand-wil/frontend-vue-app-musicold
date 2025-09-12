@@ -1,13 +1,13 @@
 import api from '../axios'
 
-const API_URL = '/users'; //
+const API_URL = '/users/'; //
 /**
  * Obtiene todos los usuarios.
  * @returns {Promise<Array>} Una promesa que resuelve con la lista de usuarios.
  */
 export const fetchUsers = async () => {
   try {
-    const response = await api.get(API_URL+'/all');
+    const response = await api.get(API_URL+'all');
     return response.data.data;
   } catch (error) {
     console.error('Error en fetchUsers:', error);

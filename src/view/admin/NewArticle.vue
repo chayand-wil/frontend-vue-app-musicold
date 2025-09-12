@@ -37,8 +37,8 @@
             <td class="py-3 px-6 text-left">{{ article.type }}</td>
             <td class="py-3 px-6 text-left">{{ article.quantity }}</td>
             <td class="py-3 px-6 text-left">${{ article.price }}</td>
-            <td class="py-3 px-6 text-left">{{ article.artist.name }}</td>
-            <td class="py-3 px-6 text-left">{{ article.music_genre.description }}</td>
+            <td class="py-3 px-6 text-left">{{ article?.artist?.name }}</td>
+            <td class="py-3 px-6 text-left">{{ article?.music_genre?.description }}</td>
             <td class="py-3 px-6 text-center">
               <div class="flex items-center justify-center space-x-2">
                 <button @click="openModal('view', article)" class="text-gray-500 hover:text-green-500 transform hover:scale-110">
@@ -105,7 +105,7 @@
           <p class="mb-2"><strong>Tipo:</strong> {{ currentArticle.type }}</p>
           <p class="mb-2"><strong>Cantidad:</strong> {{ currentArticle.quantity }}</p>
           <p class="mb-2"><strong>Precio:</strong> ${{ currentArticle.price }}</p>
-          <p class="mb-2"><strong>Artista:</strong> {{ currentArticle.artist.name }}</p>
+          <p class="mb-2"><strong>Artista:</strong> {{ currentArticle?.artist?.name }}</p>
           <p class="mb-2"><strong>Género:</strong> {{ currentArticle.music_genre.description }}</p>
           <p class="mb-2"><strong>Año de Publicación:</strong> {{ currentArticle.publication_year }}</p>
           
@@ -140,6 +140,7 @@ const modalTitle = computed(() =>
 const loadArticles = async () => {
   try {
     const data = await fetchArticles();
+    console.log(data)
     articles.value = data;
     error.value = null;
   } catch (err) {
