@@ -103,6 +103,14 @@
               class="block px-4 py-2 hover:bg-gray-100"
               >usuarios</a
             >
+
+            <a
+              href="#"
+              @click="router.push('/admin/publications-list')"
+              class="block px-4 py-2 hover:bg-gray-100"
+              >Moderacion</a
+            >
+
             <a
               href="#"
               @click="router.push('/admin/reports')"
