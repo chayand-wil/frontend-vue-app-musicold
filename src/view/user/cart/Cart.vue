@@ -8,7 +8,7 @@
       <!-- Mensaje de éxito -->
       <div
         v-if="successMessage"
-        class="bg-white/20 backdrop-blur-sm rounded-2xl p-10 shadow-lg text-xl text-verdee"
+        class="bg-white backdrop-blur-xs rounded-2xl p-10 shadow-lg text-xl text-verdee"
       >
         {{ successMessage }}
       </div>
@@ -61,7 +61,7 @@
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 lg:grid-cols-4 justify-items-center"
     >
       <div
-        v-for="order in orders"
+        v-for="order in pendingOrders"
         :key="order.id"
         class="flex flex-col items-center"
       >
@@ -83,26 +83,26 @@
     </div>
   </div>
 </template>
-
 <script setup>
-import { ref, computed } from "vue";
-import { onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { fetchOrdersUser } from "@/services/order";
+import { fetchOrdersUser, fetchUpdateOrder } from "@/services/order";
 import { fetchOneArticle } from "@/services/article";
-import { fetchUpdateOrder } from "@/services/order";
 import PublicationCard from "@/components/PublicationCard.vue";
 
 const router = useRouter();
 const errorMessage = ref("");
 const successMessage = ref("");
 const orders = ref([]);
-const showInvoiceModal = ref(false); // controla si el modal se muestra
-const selectedOrder = ref(null); // almacena la orden que se va a mostrar
+const showInvoiceModal = ref(false);
+const selectedOrder = ref(null);
 
 const user = ref(null);
-
 const articles = ref([]);
+ 
+const pendingOrders = computed(() =>
+  orders.value.filter((order) => order.state === "pending_payment")
+);
 
 const pagar_ahora = async (order) => {
   try {
@@ -111,23 +111,21 @@ const pagar_ahora = async (order) => {
       quantity: order.quantity,
       state: "ready_to_shipped",
     };
-    console.log(orderData)
+    console.log(orderData);
     const res = await fetchUpdateOrder(order.id, orderData);
     successMessage.value = res.data.message || "Pago realizado con exito!";
     setTimeout(() => {
       successMessage.value = "";
-      router.push('/user/cart/my_articles')
+      router.push("/user/cart/my_articles");
     }, 3000);
   } catch (error) {
-    errorMessage.value = error.res.data || "Error al realizar el pago w";
+    errorMessage.value = error.res?.data || "Error al realizar el pago";
     setTimeout(() => {
       errorMessage.value = "";
     }, 3000);
     console.error("Error al actualizar la orden:", error);
     alert("Error al procesar el pago. Inténtalo de nuevo.");
   }
-
-  //   router.push({ name: "pub", params: { id } });
 };
 
 const loadOrders = async () => {
@@ -135,15 +133,12 @@ const loadOrders = async () => {
     const response = await fetchOrdersUser(user.value);
     orders.value = response;
 
-    // Obtener todos los artículos de manera concurrente
     const articlesData = await Promise.all(
       orders.value.map((order) => fetchOneArticle(order.publication_id))
     );
 
-    // Guardar solo los datos de los artículos
     articles.value = articlesData.map((res) => res.data);
 
-    // Agregar price directamente dentro de cada objeto de order
     orders.value = orders.value.map((order, index) => {
       return {
         ...order,
@@ -151,7 +146,7 @@ const loadOrders = async () => {
       };
     });
 
-    console.log(orders.value); // Ahora cada order tiene su price
+    console.log(orders.value);
   } catch (error) {
     console.error("Error al obtener los pedidos:", error);
   }
