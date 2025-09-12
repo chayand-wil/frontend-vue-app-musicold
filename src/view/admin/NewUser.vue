@@ -92,6 +92,7 @@
               <select id="user_status" v-model="currentUser.status" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700" required>
                 <option value="ACTIVE">Activo</option>
                 <option value="INACTIVE">Inactivo</option>
+                <option value="BAN">Baneado</option>
               </select>
             </div>
             <div class="mb-4 md:col-span-2">
@@ -160,6 +161,7 @@ const saveUser = async () => {
     if (modalMode.value === 'create') {
       await createUser(payload);
     } else {
+      console.log(payload)
       await updateUser(payload.id, payload);
     }
     await loadUsers();

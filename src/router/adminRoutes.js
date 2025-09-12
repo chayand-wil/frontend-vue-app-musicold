@@ -51,7 +51,7 @@ const adminRoutes = [
         component: Report 
       },
       { 
-        path: 'new-publication', // Ejemplo de una ruta adicional
+        path: 'publications', // Ejemplo de una ruta adicional
         name: 'admin_new_publication', 
         component: NewPublication 
       },
