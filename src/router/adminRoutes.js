@@ -1,12 +1,12 @@
 import AdminLayout from "@/layout/admin/AdminLayout.vue";
 import Admin from "@/view/admin/admin.vue";
-import Management from "@/view/admin/Management .vue";
 import NewPublication from "@/view/admin/NewPublication.vue"; // Asegúrate de importar cualquier componente necesario
 import NewArticle from "@/view/admin/NewArticle.vue"; 
 import NewArtist from "@/view/admin/NewArtist.vue"; 
 import NewUser from "@/view/admin/NewUser.vue"; 
 import Report from "@/view/admin/Report.vue";
 import NewGenreMusic from '@/view/admin/NewGenre.vue'
+import NewEvents from '@/view/admin/NewEvent.vue'
 //import Article from "@/view/admin/Article.vue"; 
 
 
@@ -39,7 +39,7 @@ const adminRoutes = [
         { 
         path: 'events', // Ruta completa: '/admin/management'
         name: 'admin_events', 
-        component: Management 
+        component: NewEvents 
       },
         { 
         path: 'users', // Ruta completa: '/admin/management'
