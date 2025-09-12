@@ -35,7 +35,7 @@
       <form @submit.prevent="crearUsuario" autocomplete="off">
         <div class="flex space-x-4 w-full">
           <div class="relative w-1/2">
-            <insst
+            <input
               v-model="nuevo.name"
               @focus="focus_name = true"
               @blur="focus_name = false"

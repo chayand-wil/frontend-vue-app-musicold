@@ -1,29 +1,23 @@
 <template>
-  <!-- <div class="min-h-screen flex items-center justify-center bg-gray-500"> -->
+  <div class="fixed top-20 right-40 z-50 space-y-4 w-[300px]">
+    <!-- Mensaje de éxito -->
+    <div
+      v-if="mensaje"
+      class="bg-white/20 backdrop-blur-sm rounded-2xl p-10 shadow-lg text-xl text-verdee"
+    >
+      {{ mensaje }}
+    </div>
+    <p v-if="error" class="text-red-600 text-sm text-center">{{ error }}</p>
+  </div>
   <div
     class="min-h-screen flex items-center justify-center bg-gray-500 bg-opacity-20 backdrop-blur-sm"
   >
     <div
       class="w-full max-w-2xl bg-white/10 backdrop-blur-sm rounded-2xl p-10 shadow-lg text-green-400"
     >
-      <div class="color: verdee;"></div>
-
-      <div></div>
-      <img
-        src="@/assets/logo_bueno_para.png"
-        alt="Logo"
-        class="mx-auto h-64 w-auto"
-      />
-      <button>
-        <router-link to="/login">Volver a intentar, Iniciar sesión</router-link>
-      </button>
-      
-      <button
-        class="block mx-auto text-xm text-black mt-4 mb-10"
-        @click="route.push('/')"
-      >
-        Seguir como invitado
-      </button>
+      <div class="text-center text-2xl text-white mb-4">
+        <h1>Confirmacion de la cuenta</h1>
+      </div>
       <p>
         A continuación, ingresa el código de activación que te enviamos a tu
         correo
@@ -32,8 +26,8 @@
       <div class="relative w-full mt-1">
         <input
           v-model="code"
-          @focus="focus_mail = true"
-          @blur="focus_mail = false"
+          @focus="focus_code = true"
+          @blur="focus_code = false"
           type="text"
           id="mail"
           placeholder=" "
@@ -59,38 +53,52 @@
 
       <button
         @click="validate_code"
-        class="mt-2 w-full border border-green-400 px-4 py-2 rounded-md hover:bg-green-400 hover:text-white transition"
+        class="mt-2 w-full text-green-400 border border-green-400 px-4 py-2 rounded-md hover:bg-green-400 hover:text-white transition"
       >
-        Entrar
+        Verificar Cuenta
       </button>
       <button
-        @click="validate_again"
-        class="mt-2 w-full text-black px-4 py-2 rounded-md hover:bg-green-400 hover:text-white transition"
+        @click="send_again"
+        class="mt-2 w-full text-green-400 border-green-400 px-4 py-2 rounded-md hover:bg-green-400 hover:text-white transition"
       >
-        no recibiste el codigo?, volver a interntarlo
+        no recibiste el codigo?, click aqui
       </button>
 
-      <p v-if="error" class="text-red-600 text-sm text-center">{{ error }}</p>
-      <br />
-      <br />
       <p class="text-2xl text-center">
         <router-link to="/register">Registrate ahora!</router-link>
       </p>
+
+      <button
+        class="block mx-auto text-xm text-black mt-4"
+        @click="router.push('/')"
+      >
+        Seguir como invitado
+      </button>
+
+      <button
+        class="block mx-auto text-xm text-black mt-4"
+        @click="router.push('/send_code')"
+      >
+        Recuperar contrasena
+      </button>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import api from "../axios";
-import { useRoute } from "vue-router";
+import { ref, onMounted } from 'vue'
+import api from "../../axios"
 
+import { useRouter } from "vue-router"
+import { useRoute } from "vue-router"
+
+const router = useRouter();
 const route = useRoute();
-const focus_mail = ref(false);
-const mensaje = ref("");
-const email = ref("");
-const code = ref("");
-const error = ref("");
+const focus_code = ref(false);
+const mensaje = ref('');
+const email = ref('');
+const code = ref('');
+const error = ref('');
 
 const SubmitEvent = ref(false);
 
@@ -104,7 +112,7 @@ onMounted(async () => {
 const validate_code = async () => {
   SubmitEvent.value = true;
   if (!email.value) {
-    route.push("/login");
+    router.push("/login");
   } else {
     try {
       const response = await api.post("/active-user", {
@@ -112,34 +120,24 @@ const validate_code = async () => {
         code: code.value,
       });
       mensaje.value = response?.data?.message || "Cuenta activada con exito";
-      if (response.status === 200) {
-      }
-
-      // const role = localStorage.getItem("role");
-
-      // switch (role) {
-      //   case "ADMIN":
-      //     route.push("/admin");
-
-      //     break;
-      //   case "ACTIVE":
-      //     route.push("/comun_user");
-      //     break;
-
-      //   default:
-      //     route.push("/");
+      // if (response.status === 200) {
       // }
+      setTimeout(() => {
+        mensaje.value = '' // opcional, si quieres limpiar el mensaje
+        router.push("/login")
+      }, 3000)
     } catch (err) {
       error.value = err?.response?.data?.message || "Coooodigo incorrecto";
+
       // console.error("Error during login:" + err);
     }
   }
 };
 
-const validate_again = async () => {
+const send_again = async () => {
   SubmitEvent.value = true;
   if (!email.value) {
-    route.push("/login");
+    router.push("/login");
   } else {
     try {
       const response = await api.post("/send-code", {
@@ -148,8 +146,6 @@ const validate_again = async () => {
       mensaje.value = response?.data?.message || "Codigo enviade de nuevo";
       if (response.status === 200) {
       }
-
-      const role = localStorage.getItem("role");
     } catch (err) {
       error.value = err?.response?.data?.message || "Coooodigo incorrecto";
       // console.error("Error during login:" + err);

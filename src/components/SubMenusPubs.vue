@@ -11,12 +11,12 @@
       <router-link
         :to="`/user/home/pub/${userId}/`"
         class="pb-2 hover:border-b-2 hover:border-white text-white text-2xl"
-        >Articulo</router-link
+        >Evento</router-link
       >
       <router-link
         :to="`/user/home/pub/${userId}/info_user/`"
         class="pb-2 hover:border-b-2 hover:border-white text-white text-2xl"
-        >Perfil del Propietario</router-link
+        >Chat en vivo</router-link
       >
     </div>
     </div>

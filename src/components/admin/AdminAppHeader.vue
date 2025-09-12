@@ -40,6 +40,12 @@
             @mouseenter="cancelCloseTimer"
             @mouseleave="startCloseTimer"
           >
+          <a
+              href="#"
+              @click="router.push('/admin/publications')"
+              class="block px-4 py-2 hover:bg-gray-100"
+              >Publicaciones</a
+            >
             <a
               href="#"
               @click="router.push('/admin/articles')"
@@ -51,6 +57,12 @@
               @click="router.push('/admin/artist')"
               class="block px-4 py-2 hover:bg-gray-100"
               >Artistas</a
+            >
+            <a
+              href="#"
+              @click="router.push('/admin/music-genre')"
+              class="block px-4 py-2 hover:bg-gray-100"
+              >Genero Musical</a
             >
             <a
               href="#"
