@@ -5,7 +5,8 @@ import NewPublication from "@/view/admin/NewPublication.vue"; // Asegúrate de i
 import NewArticle from "@/view/admin/NewArticle.vue"; 
 import NewArtist from "@/view/admin/NewArtist.vue"; 
 import NewUser from "@/view/admin/NewUser.vue"; 
-import Report from "@/view/admin/Report.vue"; 
+import Report from "@/view/admin/Report.vue";
+import NewGenreMusic from '@/view/admin/NewGenre.vue'
 //import Article from "@/view/admin/Article.vue"; 
 
 
@@ -54,6 +55,11 @@ const adminRoutes = [
         path: 'publications', // Ejemplo de una ruta adicional
         name: 'admin_new_publication', 
         component: NewPublication 
+      },
+      { 
+        path: 'music-genre', // Ejemplo de una ruta adicional
+        name: 'admin_new_music_genre', 
+        component: NewGenreMusic 
       },
       // Puedes agregar más rutas de admin aquí
     ]

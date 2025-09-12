@@ -21,9 +21,9 @@
 
           <div class="p-6 flex flex-col flex-grow">
             <h3 class="text-xl font-bold text-gray-800 mb-2">
-              {{ publication.publicationType.description }}
+              {{ publication?.publication_type?.description }}
             </h3>
-            <p v-if="publication.articles.length" class="text-gray-600 text-sm mb-4">
+            <p v-if="publication?.articles?.length" class="text-gray-600 text-sm mb-4">
               Formato: <span class="font-semibold capitalize">{{ publication.articles[0].type }}</span> | 
               Precio: <span class="font-semibold">${{ publication.articles[0].price }}</span>
             </p>
@@ -126,7 +126,7 @@ const loadPublications = async () => {
   try {
     // Asumimos que el servicio devuelve un objeto con una clave "data" que contiene el array
     const response = await fetchPublications();
-    //console.log(response)
+    console.log(response.length)
     publications.value = response; 
   } catch (error)
   {

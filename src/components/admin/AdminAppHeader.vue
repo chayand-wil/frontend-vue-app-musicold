@@ -60,6 +60,12 @@
             >
             <a
               href="#"
+              @click="router.push('/admin/music-genre')"
+              class="block px-4 py-2 hover:bg-gray-100"
+              >Genero Musical</a
+            >
+            <a
+              href="#"
               @click="router.push('/admin/promotions')"
               class="block px-4 py-2 hover:bg-gray-100"
               >Promocion</a
