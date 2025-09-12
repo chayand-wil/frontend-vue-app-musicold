@@ -142,7 +142,7 @@ const cargarPublications = async () => {
   try {
     const res = await api.get("/article");
     publications.value = res.data.data;
-    console.log(publications.value);
+    // console.log(res);
     //filtrar
     // filtrar()
   } catch (e) {

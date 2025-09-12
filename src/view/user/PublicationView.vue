@@ -231,6 +231,12 @@
             </svg>
           </button>
         </div>
+        <button
+          @click="router.push('/user/cart')"
+          class="px-4 py-2 bg-gray-400 text-white rounded-lg"
+        >
+          Ir al carrito
+        </button>
         <div class="flex flex-col gap-3">
           <button
             @click="solicitarArticulo"
@@ -258,6 +264,7 @@ import { inject } from "vue";
 import { ref } from "vue";
 import { onMounted } from "vue";
 import { useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 import api from "../../axios";
 
 // Props: si viene como tarjeta
@@ -267,9 +274,10 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["enviar-id"]);
+const router = useRouter();
 const route = useRoute();
 const publication = ref(props.publication ?? null);
-const user = ref(props.user ?? null);
+const user = ref(null);
 const article = ref();
 const mensaje = ref("");
 const error = ref("");
@@ -278,10 +286,11 @@ const cantidadComprar = ref(1);
 // const usuarioLogueado = inject('usuarioLogueado')
 const show = ref(false);
 
-const nuevaSolicitud = ref({
-  id_estado_solicitud: null,
-  id_publicacion: null,
-  id_usuario_nuevo: null,
+const newOrder = ref({
+  publication_id: null,
+  app_user_id: null,
+  quantity: null,
+  state: null,
 });
 
 // Carga si no viene por prop
@@ -300,6 +309,7 @@ const cargarInfo = async () => {
 onMounted(async () => {
   if (!publication.value) {
     try {
+      user.value = parseInt(localStorage.getItem("id"), 10);
       await cargarInfo();
     } catch (e) {
       console.error("Error cargando publicación:", e);
@@ -307,11 +317,7 @@ onMounted(async () => {
   } else {
     // article.value = publication.value.article
   }
-  //   console.log('Solicitudes:', publication.value)
-  // Cargar catálogos
   if (publication.value) {
-    // await cargarCatalogos()
-    //pasar el id de la publicación al componente padre ( submenú)
     emit("enviar-id", publication.value.id);
   }
 });
@@ -323,16 +329,41 @@ function formatFecha(fechaRaw) {
   return isNaN(fecha) ? "Fecha no válida" : fecha.toLocaleString("es-ES");
 }
 
+//create order
+const solicitarArticulo = async () => {
+  if (!user.value) {
+    window.location.href = "/user/home"; // Redirige a la página de inicio de sesión
+  }
+  newOrder.value.publication_id = publication.value.id;
+  newOrder.value.app_user_id = user.value;
+  newOrder.value.quantity = cantidadComprar.value;
+  newOrder.value.state = "pending_payment";
+  console.log(newOrder.value);
+  try {
+    const res = await api.post("/order", newOrder.value);
+    mensaje.value = res?.data?.message || "Artículo agregado al carrito";
+    setTimeout(() => {
+      mensaje.value = "";
+    }, 3000);
+    // console.log("Orden creada:", res.data)
+  } catch (error) {
+    error.value = error?.response?.data?.message || "Error al crear la orden W.";
+    console.error("Error creando la orden:", error);
+    setTimeout(() => {
+      mensaje.value = "";
+    }, 3000);
+    
+  }
+};
+
 //funcion de sumar y restar a la cantidad de productos en el carrito
 const sumarCantidad = () => {
-  alert(cantidadComprar.value);
   if (article.value && cantidadComprar.value < article.value.quantity) {
     cantidadComprar.value++;
   }
 };
 
 const restarCantidad = () => {
-  alert(cantidadComprar.value);
   if (cantidadComprar.value > 1) {
     cantidadComprar.value--;
   }

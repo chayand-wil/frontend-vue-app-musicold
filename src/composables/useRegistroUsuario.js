@@ -41,7 +41,7 @@ export function useRegistroUsuario() {
     try {
       const response = await api.post("/register", nuevo.value);
       console.log(response.data.message);
-      // mensaje.value = response?.data?.message || "Usuario creado con éxiiiiito";
+      mensaje.value = response?.data?.message || "Usuario creado con éxiiiiito";
       // if (response.status === 201) {
       const em = nuevo.value.email;
       router.push({ name: "activate", params: { email: em } });
