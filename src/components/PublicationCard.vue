@@ -119,31 +119,30 @@
       </button>
     </div>
   </div>
-  <DenunciaModal
+  <AddwishListModal
     :show="modalVisible"
     :opciones="motivos"
     @close="modalVisible = false"
-    @cargar-Denuncia="setConfiguracion"
+    @agregar-wishlist="setConfiguracion"
   />
 </template>
 
 <script setup>
 import { ref } from "vue";
-import DenunciaModal from "@/components/ModalWishList.vue";
+import AddwishListModal from "@/components/ModalWishList.vue";
 const { publication } = defineProps(["publication", "motivos"]);
 
 const modalVisible = ref(false);
-const emit = defineEmits(["cargar-Publication", "crear-Denuncia"]);
+const emit = defineEmits(["cargar-Publication", "agregar_wish"]);
 
 const id_publicacion = ref(false);
-const id_motivo = ref(false);
 
 function emitirDetalle() {
   emit("cargar-Publication", publication.publication.id);
 }
 
-function setConfiguracion(id) {
+function setConfiguracion() {
   modalVisible.value = false;
-  emit("crear-Denuncia", publication.id, id);
+  emit("agregar_wish", publication.id);
 }
 </script>

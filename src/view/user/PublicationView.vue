@@ -302,6 +302,7 @@ const cargarInfo = async () => {
     article.value = res.data.data;
     // user.value = publication.value.user
   } catch (e) {
+    
     console.error("Error cargando información de la publicación:", e);
   }
 };
@@ -368,4 +369,5 @@ const restarCantidad = () => {
     cantidadComprar.value--;
   }
 };
+
 </script>
