@@ -69,10 +69,6 @@
     <form @submit.prevent="handleSave">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <div>
-          <label for="image" class="block text-gray-700 text-sm font-bold mb-2">Imagen:</label>
-          <input type="file" id="image" @change="handleImageChange" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" />
-        </div>
-        <div>
           <label for="price" class="block text-gray-700 text-sm font-bold mb-2">Precio:</label>
           <input type="number" step="0.01" id="price" v-model="currentArticle.price" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" required />
         </div>
@@ -98,7 +94,7 @@
         </div>
         <div>
           <label for="condition" class="block text-gray-700 text-sm font-bold mb-2">Estado:</label>
-          <select id="condition" v-model="currentArticle.condition" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+          <select id="condition" v-model="currentArticle.category" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" required>
             <option value="" disabled>Selecciona un estado</option>
             <option value="NUEVO">Nuevo</option>
             <option value="SEMI_USADO">Semi Usado</option>
@@ -130,12 +126,18 @@
           <label for="publication_id" class="block text-gray-700 text-sm font-bold mb-2">Publicación:</label>
           <select id="publication_id" v-model="currentArticle.publication_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" required>
             <option value="" disabled>Selecciona una publicación</option>
+                <option v-for="artist in publications" :key="artist.id" :value="artist.id">
+                    {{ artist.id }} {{ artist.publication_type_id }} {{ artist.status }}
+                </option>
             </select>
         </div>
         <div>
           <label for="music_genre_id" class="block text-gray-700 text-sm font-bold mb-2">Género Musical:</label>
           <select id="music_genre_id" v-model="currentArticle.music_genre_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" required>
             <option value="" disabled>Selecciona un género</option>
+                <option v-for="artist in musicGenre" :key="artist.id" :value="artist.id">
+                    {{ artist.description }}
+                </option>
             </select>
         </div>
         <div>
@@ -193,10 +195,14 @@
 import { ref, onMounted, computed } from 'vue';
 import { fetchArticles, createArticle, updateArticle, deleteArticle } from './../../services/article';
 import { fetchArtists } from './../../services/artist';
+import { fetchMusicGenre } from './../../services/GenreMusic'
+import { fetchPublications } from './../../services/publication'
 
 // Datos reactivos
 const articles = ref([]);
 const artists = ref([]);
+const musicGenre = ref([]);
+const publications = ref([]);
 const showModal = ref(false);
 const modalMode = ref('create');
 const currentArticle = ref({});
@@ -231,11 +237,42 @@ const loadArtist = async () => {
   }
 };
 
+const loadGenreMusic = async () => {
+  try {
+    const data = await fetchMusicGenre();
+    console.log(data)
+    musicGenre.value = data;
+    error.value = null;
+  } catch (err) {
+    error.value = 'No se pudieron cargar los artículos. Por favor, inténtalo de nuevo más tarde.';
+  }
+};
+
+const loadPublications = async () => {
+  try {
+    const data = await fetchPublications();
+    console.log(data)
+    publications.value = data;
+    error.value = null;
+  } catch (err) {
+    error.value = 'No se pudieron cargar los artículos. Por favor, inténtalo de nuevo más tarde.';
+  }
+};
+
+
 const handleSave = async () => {
   try {
     if (modalMode.value === 'create') {
+      console.log(currentArticle.value)
       await createArticle(currentArticle.value);
     } else {
+      delete currentArticle.value.music_genre;
+      delete currentArticle.value.publication;
+      delete currentArticle.value.songs;
+      delete currentArticle.value.artist;
+      delete currentArticle.value.created_at;
+      delete currentArticle.value.updated_at;
+      console.log(currentArticle.value)
       await updateArticle(currentArticle.value.id, currentArticle.value);
     }
     await loadArticles();
@@ -261,7 +298,7 @@ const handleDelete = async (id) => {
 const openModal = (mode, article = null) => {
   modalMode.value = mode;
   if (mode === 'create') {
-    currentArticle.value = { type: '', quantity: 0, price: 0 };
+    currentArticle.value = {};
   } else {
     currentArticle.value = { ...article };
   }
@@ -276,5 +313,7 @@ const closeModal = () => {
 onMounted(() => {
   loadArticles();
   loadArtist();
+  loadGenreMusic();
+  loadPublications();
 });
 </script>

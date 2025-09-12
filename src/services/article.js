@@ -48,7 +48,7 @@ export const createArticle = async (articleData) => {
  */
 export const updateArticle = async (id, articleData) => {
   try {
-    const response = await api.put(`${API_URL}${id}`, articleData);
+    const response = await api.put(`${API_URL}/${id}`, articleData);
     return response.data;
   } catch (error) {
     console.error('Error en updateArticle:', error);

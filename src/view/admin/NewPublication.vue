@@ -64,17 +64,29 @@
             </div>
 
             <div class="mb-4">
-                <label for="pub_type" class="block text-gray-700 text-sm font-bold mb-2">Tipo de Publicación (ID):</label>
-                <select id="pub_type" v-model="currentPublication.publication_type_id" class="shadow border rounded w-full py-2 px-3 text-gray-700">
-                <option value="1">Tipo 1</option>
-                <option value="2">Tipo 2</option>
-                <option value="3">Tipo 3</option>
+                <label for="pub_type" class="block text-gray-700 text-sm font-bold mb-2">
+                  Tipo de Publicación (ID):
+                </label>
+                <select id="pub_type"
+                        v-model.number="currentPublication.publication_type_id"
+                        class="shadow border rounded w-full py-2 px-3 text-gray-700">
+                  <option
+                    v-for="publicationType in publicationTypes"
+                    :key="publicationType.id"
+                    :value="publicationType.id">
+                    {{ publicationType.description }}
+                  </option>
                 </select>
             </div>
 
             <div class="mb-4 flex items-center">
-                <input type="checkbox" id="pub_status" v-model="currentPublication.status" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
-                <label for="pub_status" class="ml-2 block text-gray-700 text-sm font-bold">Activo</label>
+                                <label for="pub_type" class="block text-gray-700 text-sm font-bold mb-2">Estado de la publicacion:</label>
+                <select id="pub_status" v-model="currentPublication.status" class="shadow border rounded w-full py-2 px-3 text-gray-700">
+                  <option value="available">Disponible</option>
+                  <option value="is_presale">Preventa</option>
+                  <option value="hidden">Oculto</option>
+                  <option value="sold_out">Agotado</option>
+                </select>
             </div>
 
             <div class="mb-4">
@@ -85,6 +97,12 @@
             <div class="mb-6">
                 <label for="pub_audio" class="block text-gray-700 text-sm font-bold mb-2">Audio:</label>
                 <input type="file" id="pub_audio" @change="handleAudioUpload" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100" />
+            </div>
+
+            <div class="mb-6">
+              <p class="text-gray-700">
+                <strong>Importante:</strong> puede que subir el archivo tarde un poco, ten paciencia ;D
+              </p>
             </div>
 
             <div class="flex justify-end space-x-4">
@@ -106,8 +124,10 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { fetchPublications, createPublication, updatePublication, deletePublication } from './../../services/publication';
+import { fetchPublicationTypes } from '@/services/publicationType';
 
 const publications = ref([]);
+const publicationTypes = ref([]);
 const showModal = ref(false);
 const modalMode = ref('create');
 
@@ -135,6 +155,18 @@ const loadPublications = async () => {
   }
 };
 
+const loadTypePublications = async() => {
+  try {
+    // Asumimos que el servicio devuelve un objeto con una clave "data" que contiene el array
+    const response = await fetchPublicationTypes();
+    publicationTypes.value = response; 
+  } catch (error)
+  {
+    console.error('Error al obtener las publicaciones:', error);
+    publicationTypes.value = []; // Asegurarse de que sea un array vacío en caso de error
+  }
+}
+
 // Funciones para capturar los archivos seleccionados por el usuario
 const handleImageUpload = (event) => {
   fileImage.value = event.target.files[0];
@@ -148,8 +180,7 @@ const savePublication = async () => {
   const formData = new FormData();
   formData.append('title', currentPublication.value.title);
   formData.append('publication_type_id', currentPublication.value.publication_type_id);
-  formData.append('status', currentPublication.value.status ? 1 : 0); // Convertir boolean a 1/0
-    console.log(currentPublication.value.publication_type_id)
+  formData.append('status', currentPublication.value.status); 
   // Adjuntar archivos solo si fueron seleccionados
   if (fileImage.value) {
     formData.append('file_image', fileImage.value);
@@ -160,6 +191,7 @@ const savePublication = async () => {
 
   try {
     if (modalMode.value === 'create') {
+        console.log('se intento mandar el request');
         formData.append('_method', 'POST'); // Truco común en APIs REST
         await createPublication(formData);
     } else {
@@ -171,6 +203,7 @@ const savePublication = async () => {
     loadPublications();
     closeModal();
   } catch (error) {
+    alert('Ocurrió un error al guardar la publicación. Por favor intenta de nuevo, intenta con un archivo mas ligero por ejemplo.');
     console.error('Error al guardar la publicación:', error);
   }
 };
@@ -209,6 +242,7 @@ const closeModal = () => {
 
 onMounted(() => {
   loadPublications();
+  loadTypePublications();
 });
 
 // La función savePublication necesitaría ser rediseñada para construir el objeto JSON complejo

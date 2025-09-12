@@ -21,8 +21,10 @@
         <thead class="bg-gray-100">
           <tr>
             <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+            <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Usuario</th>
             <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
             <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+            <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
             <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estatus</th>
             <th class="py-3 px-6 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
           </tr>
@@ -30,8 +32,14 @@
         <tbody class="bg-white divide-y divide-gray-200">
           <tr v-for="user in users" :key="user.id">
             <td class="py-4 px-6 whitespace-nowrap text-sm font-medium text-gray-900">{{ user.id }}</td>
+                        <td class="py-4 px-6 whitespace-nowrap text-sm text-gray-500">{{ user.username }}</td>
             <td class="py-4 px-6 whitespace-nowrap text-sm text-gray-500">{{ user.name }} {{ user.lastname }}</td>
             <td class="py-4 px-6 whitespace-nowrap text-sm text-gray-500">{{ user.email }}</td>
+            <td class="py-4 px-6 whitespace-nowrap text-sm text-gray-500">
+                <span :class="getUserClass(user.role)" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full">
+                {{ user.role === 'ADMIN' ? 'Admin' : 'Client' }}
+              </span>
+            </td>
             <td class="py-4 px-6 whitespace-nowrap text-sm text-gray-500">
                <span :class="getStatusClass(user.status)" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full">
                 {{ user.status === 'ACTIVE' ? 'Activo' : 'Inactivo' }}
@@ -147,6 +155,9 @@ const modalTitle = computed(() => modalMode.value === 'create' ? 'Crear Nuevo Us
 
 const getStatusClass = (status) => {
   return status === 'ACTIVE' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800';
+};
+const getUserClass = (status) => {
+  return status === 'ADMIN' ? 'bg-blue-100 text-green-800' : 'bg-yellow-100 text-gray-800';
 };
 
 const saveUser = async () => {
