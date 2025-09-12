@@ -4,7 +4,7 @@
       <h2 class="text-lg font-semibold mb-4 text-white">Completar la compra</h2>
     </div>
 
-<!-- Mensajes de error -->
+    <!-- Mensajes de error -->
     <div class="fixed top-20 right-40 z-50 space-y-4 w-[300px]">
       <!-- Mensaje de éxito -->
       <div
@@ -23,7 +23,7 @@
       </div>
     </div>
 
-<!-- Modal de pago -->
+    <!-- Modal de pago -->
     <div
       v-if="showInvoiceModal"
       class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
@@ -59,40 +59,31 @@
       </div>
     </div>
 
-
-      <div class="mt-4 mb-10 flex items-center justify-center">
-    <!-- Filtros -->
-    <div class="flex space-x-4 mb-2 text-white">
-      <button
-        @click="seleccionarEstado('ready_to_shipped')"
-        :class="estadoSeleccionado === 'ready_to_shipped' ? 'font-bold underline' : ''"
-      >
-        Listos para envio
-      </button>
-      <button
-        @click="seleccionarEstado('shipped')"
-        :class="estadoSeleccionado === 'shipped' ? 'font-bold underline' : ''"
-      >
-        Articulos enviados
-      </button> 
-      <button
-        @click="seleccionarEstado('completed')"
-        :class="estadoSeleccionado === 'completed' ? 'font-bold underline' : ''"
-      >
-        Completado
-      </button>
+    <div class="mt-4 mb-10 flex items-center justify-center">
+      <!-- Filtros -->
+      <div class="flex space-x-4 mb-2 text-white">
+        <button
+          @click="seleccionarEstado('ready_to_shipped')"
+          :class="filter === 'ready_to_shipped' ? 'font-bold underline' : ''"
+        >
+          Listos para envio
+        </button>
+        <button
+          @click="seleccionarEstado('shipped')"
+          :class="filter === 'shipped' ? 'font-bold underline' : ''"
+        >
+          En Camino
+        </button>
+        <button
+          @click="seleccionarEstado('completed')"
+          :class="filter === 'completed' ? 'font-bold underline' : ''"
+        >
+          Completado
+        </button>
+      </div>
     </div>
-  </div>
 
-
-
-
-
-
-
-
-
-<!-- Tarjetas filtradas -->
+    <!-- Tarjetas filtradas -->
     <div
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 lg:grid-cols-4 justify-items-center"
     >
@@ -132,16 +123,16 @@ const successMessage = ref("");
 const orders = ref([]);
 const showInvoiceModal = ref(false);
 const selectedOrder = ref(null);
-const filter = ref('ready_to_shipped')
+const filter = ref("ready_to_shipped");
 const user = ref(null);
 const articles = ref([]);
- 
+
 const pendingOrders = computed(() =>
   orders.value.filter((order) => order.state === filter.value)
 );
 // Cambiar filtro de estado
 function seleccionarEstado(estado) {
-  filter.value = estado
+  filter.value = estado;
 }
 
 const pagar_ahora = async (order) => {
