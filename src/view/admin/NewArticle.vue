@@ -263,8 +263,16 @@ const loadPublications = async () => {
 const handleSave = async () => {
   try {
     if (modalMode.value === 'create') {
+      console.log(currentArticle.value)
       await createArticle(currentArticle.value);
     } else {
+      delete currentArticle.value.music_genre;
+      delete currentArticle.value.publication;
+      delete currentArticle.value.songs;
+      delete currentArticle.value.artist;
+      delete currentArticle.value.created_at;
+      delete currentArticle.value.updated_at;
+      console.log(currentArticle.value)
       await updateArticle(currentArticle.value.id, currentArticle.value);
     }
     await loadArticles();
@@ -290,7 +298,7 @@ const handleDelete = async (id) => {
 const openModal = (mode, article = null) => {
   modalMode.value = mode;
   if (mode === 'create') {
-    currentArticle.value = { type: '', quantity: 0, price: 0 };
+    currentArticle.value = {};
   } else {
     currentArticle.value = { ...article };
   }
