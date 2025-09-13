@@ -127,7 +127,7 @@
           <select id="publication_id" v-model="currentArticle.publication.id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" required>
             <option value="" disabled>Selecciona una publicación</option>
                 <option v-for="artist in publications" :key="artist.id" :value="artist.id">
-                    {{ artist.id }} {{ artist.publication_type_id }} {{ artist.status }}
+                    {{ artist.id }} {{ artist.publication_type.id }} {{ artist.status }}
                 </option>
             </select>
         </div>
