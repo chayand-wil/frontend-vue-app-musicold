@@ -9,8 +9,8 @@
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 lg:grid-cols-4 justify-items-center"
     >
       <div
-        v-for="order in pendingOrders"
-        :key="order.id"
+        v-for="order in orders"
+        :key="order.publication.id"
         class="flex flex-col items-center"
       >
         <PublicationCard
@@ -47,7 +47,8 @@ const loadOrders = async () => {
     user.value = parseInt(localStorage.getItem("id"), 10);
     const response = await api.get(`/owned-wishlist/${user.value}`);
 
-    orders.value = response.data;
+    orders.value = response.data.data;
+    // alert(orders.value.publication.image)
     console.log(response)
     // const articlesData = await Promise.all(
     //   orders.value.map((order) => fetchOneArticle(order.publication_id))

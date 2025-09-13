@@ -4,63 +4,45 @@
       <h2 class="text-lg font-semibold mb-4 text-white">Completar la compra</h2>
     </div>
 
-    <!-- Botón para calcular subtotal -->
-    <div class="flex items-center justify-center mb-4">
-      <button
-        @click="calcularSubtotal"
-        class="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-      >
-        Calcular Subtotal
-      </button>
-    </div>
-
-    <!-- Mostrar subtotal -->
-    <div v-if="subtotal > 0" class="text-center text-white mb-4 text-xl">
-      Subtotal: ${{ subtotal.toFixed(2) }}
-    </div>
-
-    <!-- Checkbox de confirmación -->
-    <div class="flex items-center justify-center mb-4">
-      <input
-        type="checkbox"
-        id="confirmar"
-        v-model="confirmado"
-        class="mr-2"
-      />
-      <label for="confirmar" class="text-white">
-        Confirmo que deseo realizar el pago
-      </label>
-    </div>
-
-    <!-- Botón Confirmar pago -->
+    
+     <!-- boton pagar ahora -->
     <div class="flex items-center justify-center mb-6">
       <button
-        @click="pagar_ahora"
+        @click="pagar_ahora(selectedOrder)"
         class="px-6 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-        :disabled="isLoading || pendingOrders.length === 0 || !confirmado"
+        :disabled="isLoading || pendingOrders.length === 0"
       >
         <span v-if="isLoading">Procesando...</span>
-        <span v-else>Confirmar pago</span>
+        <span v-else>Pagar todo ahora</span>
       </button>
     </div>
+    
+ 
 
-    <!-- Mensajes -->
+    
     <div class="fixed top-20 right-40 z-50 space-y-4 w-[300px]">
+      <!-- Mensaje de éxito -->
       <div
         v-if="successMessage"
-        class="bg-white rounded-2xl p-6 shadow-lg text-xl text-green-600"
+        class="bg-white backdrop-blur-xs rounded-2xl p-10 shadow-lg text-xl text-verdee"
       >
         {{ successMessage }}
       </div>
+
+      <!-- Mensaje de error de validación -->
       <div
         v-if="errorMessage"
-        class="bg-white rounded-2xl p-6 shadow-lg text-xl text-red-600"
+        class="bg-white/10 backdrop-blur-sm rounded-2xl p-10 shadow-lg text-xl text-red-600"
       >
         {{ errorMessage }}
       </div>
     </div>
 
-    <!-- Detalle de los artículos -->
+ 
+
+
+    
+<!-- Detalle de los articulos en el carrito -->
     <div
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 lg:grid-cols-4 justify-items-center"
     >
@@ -77,13 +59,46 @@
         <div class="mb-2 font-semibold text-white text-center">
           Orden# {{ order.id }} - Cantidad: {{ order.quantity }}
         </div>
-
+ 
         <div
           class="flex items-center justify-between border-2 border-gray-300 rounded-xl px-4 py-2 w-40"
         >
-          <button @click="sumar_restarCantidad(order,1)" class="text-2xl">+</button>
-          <button @click="eliminarArticulo(order)">Eliminar</button>
-          <button @click="sumar_restarCantidad(order, 2)" class="text-2xl">-</button>
+          <button @click="sumar_restarCantidad(order,1)" class="text-2xl">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6 text-white"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
+          </button>
+          <button
+          @click="eliminarArticulo(order)"
+          > Eliminar</button>
+          
+          <button @click="sumar_restarCantidad(order, 2)" class="text-2xl">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6 text-white"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M20 12H4"
+              />
+            </svg>
+          </button>
         </div>
       </div>
     </div>
@@ -100,68 +115,13 @@ const router = useRouter();
 const errorMessage = ref("");
 const successMessage = ref("");
 const orders = ref([]);
-const showInvoiceModal = ref(false);
 const isLoading = ref(false);
 
 const user = ref(null);
 const articles = ref([]);
- // control de pasos
-const mostrarDetalle = ref(false);
-const confirmarPago = ref(false);
- 
-const subtotal = ref(0);
-const confirmado = ref(false);
+  
 
-const pendingOrders = computed(() =>
-  orders.value.filter((order) => order.state === "pending_payment")
-);
-
-// Calcular subtotal
-const calcularSubtotal = () => {
-  subtotal.value = pendingOrders.value.reduce(
-    (acc, order) => acc + order.quantity * (order.price || 0),
-    0
-  );
-};
-
-
-
-
-// pagar
-const pagar_ahora = async () => {
-  isLoading.value = true;
-  try {
-    for (const ord of pendingOrders.value) {
-      const orderData = {
-        id: ord.id,
-        quantity: ord.quantity,
-        state: "ready_to_shipped",
-      };
-      await fetchUpdateOrder(ord.id, orderData);
-    }
-
-    successMessage.value = "Pago realizado con éxito!";
-    setTimeout(() => {
-      successMessage.value = "";
-      router.push("/user/cart/my_articles");
-    }, 3000);
-  } catch (error) {
-    errorMessage.value = "Error al realizar el pago";
-    setTimeout(() => {
-      errorMessage.value = "";
-    }, 3000);
-    console.error("Error al actualizar la orden:", error);
-  } finally {
-    isLoading.value = false;
-  }
-};
-
-
-
-
-
-
-const pagar_ahoraa = async (order) => {
+const pagar_ahora = async (order) => {
   isLoading.value = true;
   try {
 
@@ -191,7 +151,14 @@ const pagar_ahoraa = async (order) => {
     // Ocultar animación de carga
     isLoading.value = false;
   }
-}; 
+};
+ 
+ 
+ 
+
+
+
+
 
 const eliminarArticulo = async (order) => {
   isLoading.value = true;
