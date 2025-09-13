@@ -11,37 +11,23 @@
       </div>
 
       <p class="text-sm text-black mb-4">
-        Vas a enviar un reporte<br />
-        <span class="text-gray-400"> <a href="#" class="">Normas comunitarias</a>. </span>
+        <span class="text-gray-400"> <a href="#" class="">Mas adelante lo podras ver entrando a tu carrito</a>. </span>
       </p>
 
       <!-- Opciones -->
       <div class="space-y-2 mb-6">
-        <p class="text-sm text-gray-400">
-          Selecciona el motivo por qué quieres reportar esta publicación?
-        </p>
+ 
 
-        <div
-          v-for="opcion in opciones"
-          :key="opcion.id"
-          @click="seleccionada = opcion"
-          :class="[
-            'cursor-pointer p-3 rounded-lg border transition-all',
-            seleccionada?.id === opcion.id ? 'bg-black' : 'bg-verdee',
-          ]"
-        >
-          {{ opcion.nombre }}
-        </div>
-      </div>
-
+ 
       <!-- Botón Enviar -->
       <button
         class="w-full bg-black hover:bg-gray-700 transition-all text-white py-2 rounded disabled:opacity-50"
-        @click="algo"
+        @click="agregarALista"
       >
         Enviar
       </button>
     </div>
+  </div>
   </div>
 </template>
 
@@ -55,11 +41,11 @@ defineProps({
   },
 })
 
-const emit = defineEmits(['close', 'cargar-Denuncia'])
+const emit = defineEmits(['close', 'agregar-wishlist'])
 
 const seleccionada = ref('')
 
-function algo() {
-  emit('cargar-Denuncia', seleccionada.value.id)
+function agregarALista() {
+  emit('agregar-wishlist')
 }
 </script>

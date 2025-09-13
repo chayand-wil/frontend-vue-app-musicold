@@ -67,6 +67,7 @@
           :key="item.id"
           :publication="item"
           @cargar-Publication="cargarPublication"
+          @agregar_wish="agregar_wish"
           class="w-72 flex-shrink-0"
         />
       </div>
@@ -114,6 +115,7 @@
         :key="item.id"
         :publication="item"
         @cargar-Publication="cargarPublication"
+        @agregar_wish="agregar_wish"
         class="w-72 flex-shrink-0"
       />
     </div>
@@ -130,7 +132,8 @@ import PublicationCard from "@/components/PublicationCard.vue";
 const router = useRouter();
 const errorMessage = ref("");
 const successMessage = ref("");
-
+const user = ref(null);
+const loggued = ref(false);
 const showModal = ref(false);
 
 // const publications = ref([]);
@@ -143,8 +146,6 @@ const cargarPublications = async () => {
     const res = await api.get("/article");
     publications.value = res.data.data;
     // console.log(res);
-    //filtrar
-    // filtrar()
   } catch (e) {
     errorMessage.value =
       e?.response?.data?.message || "Error al cargar publicaciones";
@@ -153,12 +154,10 @@ const cargarPublications = async () => {
 
 onMounted(async () => {
   try {
-    // const res1 = await api.get('/users/profile')
-    // console.log(res1)
-    // alert('No tienes permisos para acceder a esta pagina')
-    // if(res1.data.role !== 'CLIENT'){
-    // // router.push('/');
-    // }
+    if(localStorage.getItem("token")){
+      user.value = parseInt(localStorage.getItem("id"), 10);
+      loggued.value = true
+    }
     await cargarPublications();
   } catch (error) {
     console.log(error);
@@ -169,6 +168,36 @@ const cargarPublication = async (id) => {
   router.push({ name: "pub", params: { id } });
 };
 
+const agregar_wish = async (id) => {
+  if(!loggued.value){
+      window.location.href = '/user/home'
+  }
+  const dataWhisList = {
+    app_user_id: user.value,
+    publication_id: id,
+  };
+
+  try {
+    const res = await api.post("/wishlist", dataWhisList);
+    successMessage.value = res.data.message || "Agregado a la lista de deseos";
+    console.log(res);
+    setTimeout(() => {
+      successMessage.value = "";  
+    }, 3000);
+  } catch (error) {
+    errorMessage.value = error.res?.data.message || "Nooo wish";
+    setTimeout(() => {
+      successMessage.value = "";
+    }, 3000);
+  }
+
+  // router.push({ name: "pub", params: { id } });
+};
+
+// function algo() {
+//   emit('cargar-Denuncia', seleccionada.value.id)
+// }
+
 const scrollLeft = () => {
   carousel.value.scrollBy({ left: -300, behavior: "smooth" });
 };
@@ -177,25 +206,21 @@ const scrollRight = () => {
   carousel.value.scrollBy({ left: 300, behavior: "smooth" });
 };
 
-
-
 function openModal() {
   showModal.value = true;
 }
 
 function handleAction(action) {
-  if (action === 'login') {
-    console.log('Ir a la pantalla de inicio de sesión');
-    router.push('/login')
-  } else if (action === 'register') {
-    console.log('Ir a la pantalla de registro');
-    router.push('/register')
-  } else if (action === 'guest') {
-    console.log('Continuar como invitado');
+  if (action === "login") {
+    console.log("Ir a la pantalla de inicio de sesión");
+    router.push("/login");
+  } else if (action === "register") {
+    console.log("Ir a la pantalla de registro");
+    router.push("/register");
+  } else if (action === "guest") {
+    console.log("Continuar como invitado");
   }
 }
-
-
 </script>
 
 <style>
