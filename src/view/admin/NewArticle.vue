@@ -124,7 +124,7 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <div>
           <label for="publication_id" class="block text-gray-700 text-sm font-bold mb-2">Publicación:</label>
-          <select id="publication_id" v-model="currentArticle.publication_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+          <select id="publication_id" v-model="currentArticle.publication.id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" required>
             <option value="" disabled>Selecciona una publicación</option>
                 <option v-for="artist in publications" :key="artist.id" :value="artist.id">
                     {{ artist.id }} {{ artist.publication_type_id }} {{ artist.status }}
@@ -133,7 +133,7 @@
         </div>
         <div>
           <label for="music_genre_id" class="block text-gray-700 text-sm font-bold mb-2">Género Musical:</label>
-          <select id="music_genre_id" v-model="currentArticle.music_genre_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+          <select id="music_genre_id" v-model="currentArticle.music_genre.id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" required>
             <option value="" disabled>Selecciona un género</option>
                 <option v-for="artist in musicGenre" :key="artist.id" :value="artist.id">
                     {{ artist.description }}
@@ -142,7 +142,7 @@
         </div>
         <div>
             <label for="artist_id" class="block text-gray-700 text-sm font-bold mb-2">Artista:</label>
-            <select id="artist_id" v-model="currentArticle.artist_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+            <select id="artist_id" v-model="currentArticle.artist.id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                 <option value="" disabled>Selecciona un artista</option>
                 <option v-for="artist in artists" :key="artist.id" :value="artist.id">
                     {{ artist.name }}
