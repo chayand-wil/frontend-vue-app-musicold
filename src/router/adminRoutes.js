@@ -1,12 +1,14 @@
 import AdminLayout from "@/layout/admin/AdminLayout.vue";
 import Admin from "@/view/admin/admin.vue";
-import Management from "@/view/admin/Management .vue";
 import NewPublication from "@/view/admin/NewPublication.vue"; // Asegúrate de importar cualquier componente necesario
 import NewArticle from "@/view/admin/NewArticle.vue"; 
 import NewArtist from "@/view/admin/NewArtist.vue"; 
 import NewUser from "@/view/admin/NewUser.vue"; 
 import Report from "@/view/admin/Report.vue";
 import NewGenreMusic from '@/view/admin/NewGenre.vue'
+import NewEvents from '@/view/admin/NewEvent.vue'
+import Comments from "@/view/admin/Comments.vue";
+import ViewPublicationsList from "@/view/admin/ViewPublicationsList.vue";
 //import Article from "@/view/admin/Article.vue"; 
 
 
@@ -39,7 +41,7 @@ const adminRoutes = [
         { 
         path: 'events', // Ruta completa: '/admin/management'
         name: 'admin_events', 
-        component: Management 
+        component: NewEvents 
       },
         { 
         path: 'users', // Ruta completa: '/admin/management'
@@ -61,6 +63,16 @@ const adminRoutes = [
         name: 'admin_new_music_genre', 
         component: NewGenreMusic 
       },
+            { 
+        path: 'publications-list', // admin/publication-list
+        name: 'publications-list', 
+        component: ViewPublicationsList
+      },
+      { 
+        path: 'publication-comment/:idPublication', // admin/publication-comment
+        name: 'publication-comment', 
+        component: Comments
+      }
       // Puedes agregar más rutas de admin aquí
     ]
   }
