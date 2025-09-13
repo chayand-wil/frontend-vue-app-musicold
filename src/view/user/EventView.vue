@@ -168,11 +168,54 @@
 
         <div class="flex flex-col gap-3">
           <button
-            @click="apuntar_asistencia"
+            @click="asistentEvent"
             class="bg-black text-white py-3 rounded-md hover:bg-gray-800"
           >
             Asistir al evento
           </button>
+        </div>
+
+        <h2>Chat en Vivo</h2>
+
+      <div class="relative w-full mt-1">
+        <input
+          v-model="username"
+          @focus="focus_mail = true"
+          @blur="focus_mail = false"
+          type="text"
+          id="mail"
+          placeholder=" "
+          required
+          class="peer w-full h-14 px-6 rounded-md bg-neutral-800 text-white text-xl placeholder-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <label
+          :class="[
+            'absolute left-6 transition-all',
+            focus_mail || newComment
+              ? 'top-0.5 text-base text-xs text-blue-500'
+              : 'top-4 text-lg text-gray-500',
+          ]"
+          for="mail"
+        >
+          Escribe un comentario
+        </label>
+      </div>
+<button
+@click="enviarComentario"
+class="mt-2 w-full text-green-400 border border-green-400 px-4 py-2 rounded-md hover:bg-green-400 hover:text-white transition"
+> Enviar Comentario</button>
+
+
+        
+        <div
+          class="mt-24 w-full max-w-[900px] mx-auto bg-white/10 backdrop-blur-2xl rounded-2xl p-6 shadow-lg text-white"
+        >
+          <CommentPublications
+            v-for="item in comments"
+            :key="item.id"
+            :commentation="item"
+            class="w-72 flex-shrink-0"
+          />
         </div>
       </div>
     </div>
@@ -185,6 +228,8 @@ import { onMounted } from "vue";
 import { useRoute } from "vue-router";
 import api from "../../axios";
 import { fetchOneEvent } from "../../services/event";
+import CommentPublications from "@/components/cliente/CommentPublications.vue";
+import { comment } from "postcss";
 
 // Props: si viene como tarjeta
 const props = defineProps({
@@ -200,6 +245,11 @@ const event = ref();
 const mensaje = ref("");
 const error = ref("");
 const cantidadComprar = ref(1);
+const comments = ref([]);
+const focus_mail = ref(false)
+const newComment = ref('');
+
+
 
 // const usuarioLogueado = inject('usuarioLogueado')
 const show = ref(false);
@@ -210,6 +260,34 @@ const nuevaSolicitud = ref({
   id_usuario_nuevo: null,
 });
 
+// "event_id":1,
+// "app_user_id":1
+const asistentEvent = async () => {
+  user.value = parseInt(localStorage.getItem("id"), 10);
+
+  const event_id = event.value.publication.id;
+  console.log("event_id :", event_id);
+  console.log("user: ", user.value);
+  try {
+    const response = await api.post("/userAttendance", {
+      event_id: event.value.id,
+      app_user_id: user.value,
+    });
+    console.log("Respuesta del servidor:", response.data);
+    mensaje.value = "¡Te has inscrito al evento con éxito!";
+    setTimeout(() => {
+      mensaje.value = "";
+    }, 3000);
+  } catch (error) {
+    mensaje.value = "¡Te has inscrito al evento con éxito!";
+
+    setTimeout(() => {
+      mensaje.value = "";
+    }, 3000);
+    console.error("Error al obtener los usuarios:", error);
+  }
+};
+
 // Carga si no viene por prop
 const loadEvent = async () => {
   try {
@@ -218,6 +296,28 @@ const loadEvent = async () => {
   } catch (error) {
     console.error("Error al obtener los usuarios:", error);
   }
+  try {
+    const res1 = await api.get(`/comment/publication/${route.params.id}`);
+    // const res1 = await api.get(`/comment/publication` + '/1');
+    comments.value = res1.data.data;
+    console.log(res1);
+  } catch (error) {
+    console.log(error);
+  }
+};
+const enviarComentario = async () => {
+  try {
+    const response = await api.post('/login', {
+      app_user_id: username.value,
+      comment: newComment.value,
+      publication_id: event.value.publication.id
+    }) 
+    
+  } catch (error) {
+    mensaje.value = "¡Comentario enviado con éxito!";
+  }
+
+
 };
 
 onMounted(async () => {
@@ -245,19 +345,4 @@ function formatFecha(fechaRaw) {
   const fecha = new Date(fechaISO);
   return isNaN(fecha) ? "Fecha no válida" : fecha.toLocaleString("es-ES");
 }
-
-//funcion de sumar y restar a la cantidad de productos en el carrito
-const sumarCantidad = () => {
-  alert(cantidadComprar.value);
-  if (event.value && cantidadComprar.value < event.value.quantity) {
-    cantidadComprar.value++;
-  }
-};
-
-const restarCantidad = () => {
-  alert(cantidadComprar.value);
-  if (cantidadComprar.value > 1) {
-    cantidadComprar.value--;
-  }
-};
 </script>
