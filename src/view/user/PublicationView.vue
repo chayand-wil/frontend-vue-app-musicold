@@ -258,6 +258,20 @@
       {{ article?.dimension_y }}
     </p>
   </div>
+
+  <div
+    class="mt-24 w-full max-w-[900px] mx-auto bg-white/10 backdrop-blur-2xl rounded-2xl p-6 shadow-lg text-white"
+  >
+        <CommentPublications
+          v-for="item in comments"
+          :key="item.id"
+          :commentation="item"
+          class="w-72 flex-shrink-0"
+        />  
+
+
+
+  </div>
 </template>
 <script setup>
 import { inject } from "vue";
@@ -266,6 +280,7 @@ import { onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useRouter } from "vue-router";
 import api from "../../axios";
+import CommentPublications from "@/components/cliente/CommentPublications.vue";
 
 // Props: si viene como tarjeta
 const props = defineProps({
@@ -282,6 +297,8 @@ const article = ref();
 const mensaje = ref("");
 const error = ref("");
 const cantidadComprar = ref(1);
+const comments = ref([ 
+])
 
 // const usuarioLogueado = inject('usuarioLogueado')
 const show = ref(false);
@@ -297,13 +314,13 @@ const newOrder = ref({
 const cargarInfo = async () => {
   try {
     const res = await api.get(`/article/${route.params.id}`);
-    console.log(res);
     publication.value = res.data.data.publication;
     article.value = res.data.data;
-    // user.value = publication.value.user
+    const res1 = await api.get(`/comment/publication/${route.params.id}`);
+    comments.value = res1.data.data;
+    console.log(res1);
   } catch (e) {
-    
-    console.error("Error cargando información de la publicación:", e);
+    console.error("Error cargando información de los comentarios>>>: ", e);
   }
 };
 
@@ -348,12 +365,12 @@ const solicitarArticulo = async () => {
     }, 3000);
     // console.log("Orden creada:", res.data)
   } catch (error) {
-    error.value = error?.response?.data?.message || "Error al crear la orden W.";
+    error.value =
+      error?.response?.data?.message || "Error al crear la orden W.";
     console.error("Error creando la orden:", error);
     setTimeout(() => {
       mensaje.value = "";
     }, 3000);
-    
   }
 };
 
@@ -369,5 +386,4 @@ const restarCantidad = () => {
     cantidadComprar.value--;
   }
 };
-
 </script>

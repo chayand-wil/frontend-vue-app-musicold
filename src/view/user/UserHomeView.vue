@@ -182,7 +182,7 @@ const agregar_wish = async (id) => {
     successMessage.value = res.data.message || "Agregado a la lista de deseos";
     console.log(res);
     setTimeout(() => {
-      successMessage.value = "";
+      successMessage.value = "";  
     }, 3000);
   } catch (error) {
     errorMessage.value = error.res?.data.message || "Nooo wish";
