@@ -2,14 +2,15 @@ import AdminLayout from "@/layout/admin/AdminLayout.vue";
 import Admin from "@/view/admin/admin.vue";
 import NewPublication from "@/view/admin/NewPublication.vue"; // Asegúrate de importar cualquier componente necesario
 import NewArticle from "@/view/admin/NewArticle.vue"; 
-import NewArtist from "@/view/admin/NewArtist.vue"; 
+import NewArtist from "@/view/admin/NewArtist.vue";
 import NewUser from "@/view/admin/NewUser.vue"; 
 import Report from "@/view/admin/Report.vue";
 import NewGenreMusic from '@/view/admin/NewGenre.vue'
 import NewEvents from '@/view/admin/NewEvent.vue'
 import Comments from "@/view/admin/Comments.vue";
 import ViewPublicationsList from "@/view/admin/ViewPublicationsList.vue";
-//import Article from "@/view/admin/Article.vue"; 
+import NewPromotion from "@/view/admin/NewPromotion.vue";
+//import Article from "@/view/admin/Article.vue";
 
 
 const adminRoutes = [
@@ -36,7 +37,7 @@ const adminRoutes = [
     { 
         path: 'promotions', // Ruta completa: '/admin/management'
         name: 'admin_promotions', 
-        component: NewArtist 
+        component: NewPromotion
       },
         { 
         path: 'events', // Ruta completa: '/admin/management'
