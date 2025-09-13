@@ -81,7 +81,6 @@ import PublicationCard from "@/components/PublicationCard.vue";
 
 const router = useRouter();
  
- 
 
 const filtros = reactive({
   type: "",
@@ -153,8 +152,7 @@ const publications = computed(() => {
     //filtrar
     filtrar()
   } catch (e) {
-    errorMessage.value =
-      e?.response?.data?.message || "Error al cargar publicaciones";
+    console.log(e)
   }
 };
 

@@ -262,15 +262,12 @@
   <div
     class="mt-24 w-full max-w-[900px] mx-auto bg-white/10 backdrop-blur-2xl rounded-2xl p-6 shadow-lg text-white"
   >
-        <CommentPublications
-          v-for="item in comments"
-          :key="item.id"
-          :commentation="item"
-          class="w-72 flex-shrink-0"
-        />  
-
-
-
+    <CommentPublications
+      v-for="item in comments"
+      :key="item.id"
+      :commentation="item"
+      class="w-72 flex-shrink-0"
+    />
   </div>
 </template>
 <script setup>
@@ -297,8 +294,7 @@ const article = ref();
 const mensaje = ref("");
 const error = ref("");
 const cantidadComprar = ref(1);
-const comments = ref([ 
-])
+const comments = ref([]);
 
 // const usuarioLogueado = inject('usuarioLogueado')
 const show = ref(false);
@@ -316,11 +312,16 @@ const cargarInfo = async () => {
     const res = await api.get(`/article/${route.params.id}`);
     publication.value = res.data.data.publication;
     article.value = res.data.data;
+    console.log(res);
+  } catch (e) {
+    console.error("Error cargando información de los comentarios>>>: ", e);
+  }
+  try {
     const res1 = await api.get(`/comment/publication/${route.params.id}`);
     comments.value = res1.data.data;
     console.log(res1);
-  } catch (e) {
-    console.error("Error cargando información de los comentarios>>>: ", e);
+  } catch (error) {
+    console.log(error);
   }
 };
 

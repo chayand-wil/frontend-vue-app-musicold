@@ -140,7 +140,7 @@ const pagar_ahora = async (order) => {
     const orderData = {
       id: order.id,
       quantity: order.quantity,
-      state: "completed",
+      state: "shipped", 
     };
     console.log(orderData);
     const res = await fetchUpdateOrder(order.id, orderData);
