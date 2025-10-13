@@ -85,8 +85,8 @@ onMounted(async () => {
     // const res = await api.get('/users/profile')
     // console.log(res.data)
     // user.value = res.data
-    user.value.name = localStorage.getItem('name')
-    user.value.email = localStorage.getItem('email')
+    // user.value.name = localStorage.getItem('name')
+    // user.value.email = localStorage.getItem('email')
 
 
 

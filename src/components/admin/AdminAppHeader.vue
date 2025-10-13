@@ -12,11 +12,11 @@
         class="flex items-center space-x-2 hover:opacity-80 transition"
       >
         <img
-          src="../../assets/logo_bueno_para.png"
+          src="../../assets/icono_prision.png"
           alt="Logo"
           class="h-20 w-auto"
         />
-        <span class="text-xl font-bold text-white">Bueno para mas nada</span>
+        <span class="text-xl font-bold text-white">Granja Food</span>
       </router-link>
 
       <!-- Menú principal -->
@@ -31,7 +31,7 @@
             @click.prevent="toggleMenu('publicar')"
             :aria-expanded="activeMenu === 'publicar'"
           >
-            Publicar contenido
+            Simulador
           </button>
 
           <div
@@ -88,7 +88,7 @@
             @click.prevent="toggleMenu('administrar')"
             :aria-expanded="activeMenu === 'administrar'"
           >
-            Administracion
+            Inventario
           </button>
 
           <div

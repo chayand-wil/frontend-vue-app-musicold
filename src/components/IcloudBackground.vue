@@ -50,8 +50,8 @@ onMounted(() => {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(64deg, #1f0943, #351574 48%, #210056 );
-  mix-blend-mode: hard-light;
+  background: linear-gradient(64deg, #49311d, #27211a 48%, #aa450163 );
+  mix-blend-mode: hard-light; 
 }
 
 .homepage-gradient-background.blue:after {

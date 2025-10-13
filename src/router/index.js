@@ -1,24 +1,6 @@
-import Login from "@/view//auth/login.vue";
 import { createRouter, createWebHistory } from "vue-router";
-import Register from "@/view/auth/register.vue";
-import ActivacionDeLaCuenta from "@/view/auth/activacion_cuenta.vue";
-import Forgot_password from "@/view//auth/forgot_password.vue";
-import homeLayoutUser from "@/layout/user/UserLayout.vue";
-import UserHomeView from "@/view/user/UserHomeView.vue";
-import PublicationView from "@/view/user/PublicationView.vue";
-import DetallePublicationLayoutView from "@/layout/DetallePublicationLayoutView.vue";
-import InforUser from "@/view/InfoUser.vue";
-import CatotegorysLayout from "@/layout/user/CatotegorysLayout.vue";
-import PromotionsViewVue from "@/view/PromotionsView.vue";
-import FiltrarCatalogoView from "@/view/FiltrarCatalogoView.vue";
-import SendCodePassword from "@/view//auth/SendCodePassword.vue";
-import CartLayout from "@/layout/user/CartLayout.vue";
-import MyArticles from "@/view/user/cart/MyArticles.vue";
-import WishList from "@/view/user/cart/WishList.vue";
-import Cart from "@/view/user/cart/Cart.vue";
-import adminRoutes from "./adminRoutes";
-import EventsView from "@/view/user/EventsView.vue";
-import EventView from "@/view/user/EventView.vue";
+import AdminLayout from "@/layout/admin/AdminLayout.vue";
+import Otro from "@/view/otro.vue";
 
 const routes = [
   // {
@@ -28,87 +10,39 @@ const routes = [
   // },
 
   {
-    path: "/user",
-    component: homeLayoutUser,
-    // meta: { requiresAuth: true, role: 'CLIENT' },
+    path: "/simulation",
+    name: "simulacion",
+    component: AdminLayout,
     children: [
       {
-        path: "home",
-        component: CatotegorysLayout,
-        children: [
-          { path: "", name: "articles", component: UserHomeView },
-          {
-            path: "promotions",
-            name: "promotions",
-            component: PromotionsViewVue,
-          },
-          { path: "events", name: "events", component: EventsView },
-        ],
-      },
-      {
-        path: "pub/:id/",
-        name: "pub",
-        component: PublicationView, props: true,
-      },
-      {
-        path: "event_detail/:id/",
-        name: "event", component: EventView, props: true,
-  
-      },
-      {
-        path: "search",
-        name: "search",
-        component: FiltrarCatalogoView,
-      },
-      {
-        path: "cart",
-        component: CartLayout,
-        children: [
-          { path: "", name: "cart", component: Cart },
-          { path: "my_articles", name: "my_articles", component: MyArticles },
-          { path: "wish_list", name: "wish_list", component: WishList },
-        ],
+        path: "",
+        component: Otro,
       },
     ],
   },
 
-  ...adminRoutes,
+  // {
+  //   path: "/reportes",
+  //   name: "reportes",
+  //   component: Reportes,
+  // },
 
-  {
-    path: "/login",
-    name: "login",
-    component: Login,
-  },
-
-  {
-    path: "/recover_password/:email/",
-    name: "recover_password",
-    component: Forgot_password,
-    props: true,
-  },
-  {
-    path: "/send_code",
-    name: "send_code",
-    component: SendCodePassword,
-  },
-  {
-    path: "/register",
-    name: "register",
-    component: Register,
-  },
-
-  {
-    path: "/activate_acount/:email/",
-    name: "activate",
-    component: ActivacionDeLaCuenta,
-    props: true,
-  },
+  // {
+  //   path: "/inventario",
+  //   name: "inventario",
+  //   component: Inventario,
+  // },
+  // {
+  //   path: "/Reos",
+  //   name: "Reos",
+  //   component: Reos,
+  // },
 
   // nada -  captura de rutas no encontradas
   {
     path: "/:pathMatch(.*)*",
     name: "not-found",
-    redirect: { name: "articles" },
+    redirect: { name: "simulacion" },
   },
 ];
 
